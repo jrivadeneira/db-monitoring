@@ -1,0 +1,72 @@
+<h1>schema details</h1>
+<div class="schema-details">
+  <div class="schema-detail">
+    <div class="detail-label">
+      study
+    </div>
+    <input type="text" [(ngModel)]="studyName"/>
+  </div>
+  <div class="schema-detail">
+    <div class="detail-label">
+      site
+    </div>
+    <input type="text" [(ngModel)]="siteName"/>
+  </div>
+  <div class="schema-detail">
+    <div class="detail-label">
+      schema name
+    </div>
+    <input type="text" [(ngModel)]="schemaName"/>
+  </div>
+  <div class="schema-detail">
+    <div class="detail-label">
+      schema type
+    </div>
+    <input type="text" [(ngModel)]="schemaType"/>
+  </div>
+  <div class="schema-detail">
+    <div class="detail-label">
+      build from
+    </div>
+    <input type="text" [(ngModel)]="buildFrom"/>
+  </div>
+</div>
+
+<h1>schema editor</h1>
+<div class="schema-editor-container">
+  <div class="fields-editor">
+    <div class="field-name-entry">
+      <div class="field-label">
+        field name
+      </div>
+      <input type="text" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
+    </div>
+    <div cdkDropList [cdkDropListData]="fieldList()" class="field-types-container" (cdkDropListDropped)="drop($event)">
+      <div cdkDrag [cdkDragData]="each" class="field-type" *ngFor="let each of fieldList(); index as i">
+        <div *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)">
+          {{each.name}}
+        </div>
+        <input *ngIf="each.editingName" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
+        <input type="text" [(ngModel)]="each.type"/>
+        <div class="control-buttons">
+          <div class="up-down-buttons">
+            <button (click)="move(each, i - 1)"> up </button>
+            <button (click)="move(each, i + 1)"> down </button>
+          </div>
+          <button (click)="deleteField(each)"> delete </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="schema-preview">
+    here's the preview!
+    <div class="preview-container">
+      <div class="preview-item" *ngFor="let each of fieldList()">
+        <div class="preview-name">
+          {{each.name}}
+        </div>
+        <input type="{{each.type}}"/>
+      </div>
+    </div>
+  </div>
+</div>

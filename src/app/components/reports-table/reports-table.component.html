@@ -1,1 +1,5 @@
 <p>reports-table works!</p>
+<button (click)="refresh()">refresh</button>
+<div class="schema-table-row" *ngFor="let each of schemas()">
+  {{each.name}}
+</div>

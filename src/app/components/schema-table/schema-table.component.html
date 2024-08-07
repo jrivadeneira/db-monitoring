@@ -1,1 +1,21 @@
 <p>schema-table works!</p>
+<button (click)="refresh()">refresh</button>
+<div class="schema-table-container">
+  <div class="schema-table-header"> name </div>
+  <div class="schema-table-header"> field count </div>
+  <div class="schema-table-header"> singleton </div>
+  @for (each of schemas(); track each) {
+  <div class="schema-table-content">
+    {{each.name}}
+  </div>
+  <div class="schema-table-content">
+    {{each.fields.length}}
+  </div>
+  <div class="schema-table-content">
+    {{each.singleton}}
+  </div>
+  }
+  <div class="schema-table-content">
+
+  </div>
+</div>

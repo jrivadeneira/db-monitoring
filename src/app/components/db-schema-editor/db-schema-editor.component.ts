@@ -74,7 +74,7 @@ export class DbSchemaEditorComponent {
   }
 
   save(){
-    const schema = new Schema(this.schemaName(), this.fieldList(), this.singleton());
+    const schema = new Schema(this.schemaName(), [...this.fieldList()], this.singleton());
     this.schemaService.save(schema);
     //console.log('saved!', schema);
   }

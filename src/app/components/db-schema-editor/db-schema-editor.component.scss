@@ -1,10 +1,10 @@
 
-.fields-editor{
+.fields-editor {
   display: grid;
   grid-auto-flow: row;
 }
 
-.schema-editor-container{
+.schema-editor-container {
   display: grid;
   grid-auto-flow: column;
 }
@@ -14,24 +14,36 @@
   grid-auto-flow: column;
 }
 
-.field-type{
+.field-type {
   display: grid;
   grid-template-columns: 40% 40% 20%;
 }
 
-.preview-item{
+.preview-item {
   display: grid;
   grid-template-columns: 40% 40%;
 }
 
-.control-buttons{
+.control-buttons {
   display: grid;
   grid-auto-flow: column;
 }
 
-.up-down-buttons{
+.up-down-buttons {
   display: grid;
   grid-auto-flow: row;
+}
+
+.schema-details-container {
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+}
+
+.schema-detail {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-left: 5%;
+  margin-bottom: 10px;
 }
 
 .cdk-drop-list-dragging .cdk-drag {
@@ -42,6 +54,6 @@
   transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.cdk-drag-preview	{
+.cdk-drag-preview	 {
   display: none;
 }

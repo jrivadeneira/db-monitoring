@@ -1,0 +1,11 @@
+<div class="schema-preview">
+    <button (click)="save()"> save </button>
+    <div class="preview-container">
+      <div class="preview-item" *ngFor="let each of report()?.fields">
+        <div class="preview-name">
+          {{each.fieldName}}
+        </div>
+        <input type="{{each.fieldType}}"/>
+      </div>
+    </div>
+  </div>

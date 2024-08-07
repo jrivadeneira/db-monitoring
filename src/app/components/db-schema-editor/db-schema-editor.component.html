@@ -1,17 +1,6 @@
 <h1>schema details</h1>
-<div class="schema-details">
-  <div class="schema-detail">
-    <div class="detail-label">
-      study
-    </div>
-    <input type="text" [(ngModel)]="studyName"/>
-  </div>
-  <div class="schema-detail">
-    <div class="detail-label">
-      site
-    </div>
-    <input type="text" [(ngModel)]="siteName"/>
-  </div>
+<button (click)="save()"> save </button>
+<div class="schema-details-container">
   <div class="schema-detail">
     <div class="detail-label">
       schema name
@@ -20,18 +9,11 @@
   </div>
   <div class="schema-detail">
     <div class="detail-label">
-      schema type
+      singleton?
     </div>
-    <input type="text" [(ngModel)]="schemaType"/>
-  </div>
-  <div class="schema-detail">
-    <div class="detail-label">
-      build from
-    </div>
-    <input type="text" [(ngModel)]="buildFrom"/>
+    <input type="checkbox" [(ngModel)]="singleton"/>
   </div>
 </div>
-
 <h1>schema editor</h1>
 <div class="schema-editor-container">
   <div class="fields-editor">
@@ -49,24 +31,17 @@
         <input *ngIf="each.editingName" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
         <input type="text" [(ngModel)]="each.type"/>
         <div class="control-buttons">
-          <div class="up-down-buttons">
-            <button (click)="move(each, i - 1)"> up </button>
-            <button (click)="move(each, i + 1)"> down </button>
-          </div>
           <button (click)="deleteField(each)"> delete </button>
         </div>
       </div>
     </div>
   </div>
-  <div class="schema-preview">
-    here's the preview!
-    <div class="preview-container">
-      <div class="preview-item" *ngFor="let each of fieldList()">
-        <div class="preview-name">
-          {{each.name}}
-        </div>
-        <input type="{{each.type}}"/>
-      </div>
+  <div class="report-preview-container">
+    <div class="report-preview-label">
+  here's the preview!
     </div>
+  <div class="preview-content">
+  <app-report-editor [(report)]="constructReport"></app-report-editor>
+  </div>
   </div>
 </div>

@@ -13,11 +13,11 @@ import { NgForOf, NgIf } from '@angular/common';
 })
 export class SchemaTableComponent {
   schemas = signal<Schema[]>([]);
-  constructor(private schemaService: SchemaService){
+  constructor (private schemaService: SchemaService) {
     this.refresh();
   }
-  refresh(){
-    this.schemaService.schemaObservable.pipe(take(1)).subscribe((schemas:Schema[]) => {
+  refresh() {
+    this.schemaService.schemaObservable.pipe(take(1)).subscribe((schemas: Schema[]) => {
       this.schemas.update(() => {
         return schemas;
       })

@@ -11,6 +11,12 @@ public class ReportDTO {
     this.fields = fields;
     this.singleton = singleton;
   }
+  public ReportDTO (int id, String name, ReportField[] fields, bool singleton = false) {
+    this.id = id;
+    this.name = name;
+    this.fields = fields;
+    this.singleton = singleton;
+  }
 }
 
 public class Report {
@@ -19,6 +25,11 @@ public class Report {
   public bool singleton;
 
   public Report(String name, bool singleton = false) {
+    this.name = name;
+    this.singleton = singleton;
+  }
+  public Report(int id, String name, bool singleton = false) {
+    this.id = id;
     this.name = name;
     this.singleton = singleton;
   }

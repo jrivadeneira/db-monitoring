@@ -1,4 +1,3 @@
-
 export class SchemaField{
   constructor(
     public name: string,
@@ -14,8 +13,10 @@ export class Schema {
     public name: string,
     public fields: SchemaField[],
     public singleton: boolean = false,
-    public id: number = 0,
-  ){}
+      public id: number = 0,
+  ){
+
+    }
     public static createEmptySchema(): Schema{
       return new Schema("", []);
     }

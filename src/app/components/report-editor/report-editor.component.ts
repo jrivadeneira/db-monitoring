@@ -10,6 +10,7 @@ import {Report} from '../../domain/report';
   styleUrl: './report-editor.component.scss'
 })
 export class ReportEditorComponent {
+  hideSaveButton = input(false);
   report = model<Report>();
   constructor(){
 

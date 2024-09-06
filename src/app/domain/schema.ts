@@ -4,8 +4,8 @@ export class SchemaField{
     public name: string,
     public type: string,
     public editingName: boolean = false,
-    public id: number = 0,
-    public schemaId: number = 0,
+      public id: number = 0,
+      public schemaId: number = 0,
   ){}
 }
 
@@ -16,4 +16,7 @@ export class Schema {
     public singleton: boolean = false,
     public id: number = 0,
   ){}
+    public static createEmptySchema(): Schema{
+      return new Schema("", []);
+    }
 }

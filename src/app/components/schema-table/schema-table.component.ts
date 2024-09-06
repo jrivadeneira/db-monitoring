@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { SchemaService } from '../../services/schema.service';
 import { Schema } from '../../domain/schema';
-import { take } from 'rxjs';
 import { NgForOf, NgIf } from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-schema-table',
@@ -13,9 +13,17 @@ import { NgForOf, NgIf } from '@angular/common';
 })
 export class SchemaTableComponent {
   schemas = signal<Schema[]>([]);
-  constructor (private schemaService: SchemaService) {
+  constructor (
+    private schemaService: SchemaService,
+    private router: Router
+  ) {
     this.refresh();
   }
+  createNewSchema(){
+    const schema = Schema.createEmptySchema();
+    this.editButton(schema);
+  }
+
   refresh() {
     this.schemaService.schemaObservable.subscribe((schemas: Schema[]) => {
       this.schemas.update(() => {
@@ -26,6 +34,7 @@ export class SchemaTableComponent {
 
   editButton(schema: Schema) {
     this.schemaService.setCurrentSchema(schema);
+    this.router.navigate(["schema-editor"]);
   }
 
   createFrom(schema: Schema) {

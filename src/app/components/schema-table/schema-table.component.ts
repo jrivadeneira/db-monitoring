@@ -17,10 +17,18 @@ export class SchemaTableComponent {
     this.refresh();
   }
   refresh() {
-    this.schemaService.schemaObservable.pipe(take(1)).subscribe((schemas: Schema[]) => {
+    this.schemaService.schemaObservable.subscribe((schemas: Schema[]) => {
       this.schemas.update(() => {
         return schemas;
       })
     });
+  }
+
+  editButton(schema: Schema) {
+    this.schemaService.setCurrentSchema(schema);
+  }
+
+  createFrom(schema: Schema) {
+    this.editButton({...schema, id:0});
   }
 }

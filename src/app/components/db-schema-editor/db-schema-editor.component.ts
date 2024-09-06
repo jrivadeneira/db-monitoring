@@ -1,5 +1,5 @@
 import {NgForOf, NgIf} from '@angular/common';
-import { Component, computed, model, Signal, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { FormsModule } from '@angular/forms';
 import {SchemaService} from '../../services/schema.service';
@@ -13,17 +13,34 @@ import {Report} from '../../domain/report';
   templateUrl: './db-schema-editor.component.html',
   styleUrl: './db-schema-editor.component.scss'
 })
+
 export class DbSchemaEditorComponent {
-  schemaName = model("")
-  singleton = model(false);
-  fieldType = model("");
+  id = 0;
+  schemaName = signal("")
+  singleton = signal(false);
+  fieldType = signal("");
   fieldName = signal("");
   fieldList = signal<SchemaField[]>([]);
-  constructor(private schemaService: SchemaService){}
+
+  constructor(private schemaService: SchemaService){
+    schemaService.currentSchemaObservable.subscribe((each:Schema) => {
+      this.id = each.id;
+      this.schemaName.update(() => {
+        return each.name;
+      })
+      this.singleton.update(() => {
+        return each.singleton;
+      })
+      this.fieldList.update(() => {
+        return each.fields;
+      })
+    });
+  }
 
   get constructReport(): Report {
     return Report.preview(this.fieldList());
   }
+
   submitFieldName() {
     this.fieldList.update((values:SchemaField[]) => {
       values.push(new SchemaField(this.fieldName(), "text"));
@@ -31,6 +48,7 @@ export class DbSchemaEditorComponent {
     });
     this.fieldName.set("");
   }
+
   deleteField(field: SchemaField){
     this.fieldList.update((list: SchemaField[]) => {
       list.splice(list.indexOf(field),1);
@@ -75,8 +93,7 @@ export class DbSchemaEditorComponent {
 
   save(){
     const schema = new Schema(this.schemaName(), [...this.fieldList()], this.singleton());
+    schema.id = this.id;
     this.schemaService.save(schema);
-    //console.log('saved!', schema);
   }
-
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Schema } from '../domain/schema';
 import { ajax } from 'rxjs/ajax';
@@ -7,22 +7,41 @@ import { ajax } from 'rxjs/ajax';
   providedIn: 'root'
 })
 export class SchemaService {
-  private schemaSubject: BehaviorSubject<Schema[]> = new BehaviorSubject([] as Schema[]);
-
-  constructor() {}
+  currentSchemaSubject: ReplaySubject<Schema> = new ReplaySubject<Schema>(1);
+  schemaSubject: BehaviorSubject<Schema[]> = new BehaviorSubject<Schema[]>([]);
+  constructor() {
+    this.getLatest();
+  }
 
   get schemaObservable(): Observable<Schema[]>{
-    return ajax.getJSON("http://localhost:5000/schema");
+    return this.schemaSubject.asObservable();
+  }
+
+  getLatest(){
+    ajax.getJSON<Schema[]>("http://localhost:5000/schema").pipe(take(1)).subscribe((schemas: Schema[]) => {
+      this.schemaSubject.next(schemas);
+    });;
   }
 
   save(schema: Schema) {
     console.log('here!');
     console.log(schema);
-    return ajax.post("http://localhost:5000/schema", schema).subscribe();
-//    this.schemaSubject.asObservable().pipe(take(1)).subscribe((schemas: Schema[]) => {
-//      const nxt = [...schemas, schema];
-//      console.log(nxt);
-//      this.schemaSubject.next(nxt);
-//    });
+    return ajax.post<Schema>("http://localhost:5000/schema", schema).subscribe((each: any) => {
+      const responseSchema = each.response;
+      this.setCurrentSchema(responseSchema);
+      this.schemaSubject.asObservable().pipe(take(1)).subscribe((schemas: Schema[]) => {
+        schemas.push(responseSchema);
+        this.schemaSubject.next(schemas);
+      });
+    });
+  }
+
+  get currentSchemaObservable(): Observable<Schema> {
+    return this.currentSchemaSubject.asObservable();
+  }
+
+  setCurrentSchema(schema: Schema){
+    this.currentSchemaSubject.next(schema);
+    console.log(schema);
   }
 }

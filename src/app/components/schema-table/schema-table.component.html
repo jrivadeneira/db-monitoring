@@ -3,6 +3,8 @@
   <div class="schema-table-header"> name </div>
   <div class="schema-table-header"> field count </div>
   <div class="schema-table-header"> singleton </div>
+  <div class="schema-table-header"></div>
+  <div class="schema-table-header"></div>
   @for (each of schemas(); track each) {
   <div class="schema-table-content">
     {{each.name}}
@@ -12,6 +14,12 @@
   </div>
   <div class="schema-table-content">
     {{each.singleton}}
+  </div>
+  <div class="schema-table-content">
+    <button (click)="editButton(each)" class="edit-button">edit</button>
+  </div>
+  <div class="schema-table-content">
+    <button class="edit-button" (click)="createFrom(each)">Create New From</button>
   </div>
   }
 </div>

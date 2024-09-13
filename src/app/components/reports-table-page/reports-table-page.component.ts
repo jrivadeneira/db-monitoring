@@ -11,14 +11,7 @@ import {Report} from '../../domain/report';
   styleUrl: './reports-table-page.component.scss'
 })
 export class ReportsTablePageComponent {
-  reports!: Report[];
 
   constructor(private reportService: ReportService){
-    this.refresh();
-  }
-  refresh(){
-    this.reportService.getReportsObservable().pipe(take(1)).subscribe((reports:Report[]) => {
-      this.reports = reports;
-    });
   }
 }

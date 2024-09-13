@@ -2,5 +2,17 @@
   <div class="db-table-header-item db-table-data" *ngFor="let eachItem of (displayHeaders.length?displayHeaders:headers); index as i" (click)=sortBy(i)>
     {{eachItem}}
   </div>
-  <div class="db-table-data" *ngFor="let eachItem of dataListObservable|async">{{eachItem}}</div>
+  @for(eachItem of dataListObservable|async; track eachItem){
+    @if(isArray(eachItem)){
+    <div class="db-table-data">
+      {{eachItem.length}}
+    </div>
+    }
+    @if(!isArray(eachItem)){
+
+    <div class="db-table-data">
+      {{eachItem}}
+    </div>
+    }
+  }
 </div>

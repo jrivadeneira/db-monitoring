@@ -16,7 +16,7 @@ import { DbTableComponent } from '../db-table/db-table.component';
 })
 export class ReportsTableComponent {
   schemas = signal<Schema[]>([]);
-  reports = input<Report[]>([]);
+
   constructor(
     private schemaService: SchemaService,
     private reportService: ReportService,
@@ -26,7 +26,10 @@ export class ReportsTableComponent {
     get reportDataObservable(): Observable<Report[]>{
       return this.reportService.getReportsObservable();
     }
-    createNewReport(){}
+
+    createNewReport(schema: Schema){
+
+    }
 
     createFrom(report: Report): Report {
       return Report.createFromExisting(report);

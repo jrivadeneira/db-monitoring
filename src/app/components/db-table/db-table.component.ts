@@ -97,4 +97,12 @@ export class DbTableComponent implements OnInit {
     });
     this.extractTableData();
   }
+  getType(item: any) {
+    return typeof(item);
+  }
+
+
+  isArray(item: any){
+    return Array.isArray(item);
+  }
 }

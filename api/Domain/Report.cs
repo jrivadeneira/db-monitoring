@@ -42,6 +42,14 @@ public class ReportField{
   public String type{ get; set; }
   public String value{ get; set; }
 
+  public ReportField(int id, int reportId, String name, String type, String value) {
+    this.id = id;
+    this.reportId = reportId;
+    this.name = name;
+    this.type = type;
+    this.value = value;
+  }
+
   public ReportField(int reportId, String name, String type, String value) {
     this.reportId = reportId;
     this.name = name;

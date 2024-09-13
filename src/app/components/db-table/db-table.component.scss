@@ -1,0 +1,16 @@
+.db-table-container{
+  display: grid;
+  justify-content: center;
+}
+.db-table-header-item{
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #7C8FAC;
+  grid-auto-flow: row;
+}
+.db-table-data{
+  padding: 10px;
+  align-content: center;
+  border-bottom: solid 1px #eee;
+  grid-auto-flow: row;
+}

@@ -2,5 +2,10 @@
   <option class="select-item">
     Create Report
   </option>
+  @for(eachItem of schemas|async;track eachItem) {
+  <option class="select-item" (click)="createReport(eachItem)">
+    {{eachItem.name}}
+  </option>
+  }
 </select>
 <app-reports-table></app-reports-table>

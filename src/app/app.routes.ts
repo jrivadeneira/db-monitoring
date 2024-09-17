@@ -3,6 +3,7 @@ import { SchemaEditorPageComponent } from './components/schema-editor-page/schem
 import { ReportsTablePageComponent } from './components/reports-table-page/reports-table-page.component';
 import { SchemaTablePageComponent } from './components/schema-table-page/schema-table-page.component';
 import { UsersTablePageComponent } from './components/users-table-page/users-table-page.component';
+import {ReportsEditorPageComponent} from './components/reports-editor-page/reports-editor-page.component';
 
 export const routes: Routes = [
   {
@@ -16,5 +17,8 @@ export const routes: Routes = [
   },
   {
      path: 'users', component: UsersTablePageComponent
+  },
+  {
+     path: 'report-editor', component: ReportsEditorPageComponent
   },
 ];

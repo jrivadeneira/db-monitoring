@@ -4,12 +4,15 @@
   </div>
   @for(eachItem of dataListObservable|async; track eachItem){
     @if(isArray(eachItem)){
-    <div class="db-table-data">
-      {{eachItem.length}}
-    </div>
-    }
-    @if(!isArray(eachItem)){
+      @if(isOptionArray(eachItem)) {
 
+      } @else {
+      <div class="db-table-data">
+        {{eachItem.length}}
+      </div>
+      }
+    }
+    @else{
     <div class="db-table-data">
       {{eachItem}}
     </div>

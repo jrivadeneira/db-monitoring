@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from "rxjs/operators";
+import {DbOption} from './DbOption';
 @Component({
   selector: 'db-table',
   standalone: true,
@@ -101,8 +102,11 @@ export class DbTableComponent implements OnInit {
     return typeof(item);
   }
 
-
   isArray(item: any){
     return Array.isArray(item);
+  }
+
+  isOptionArray(item: any){
+    return item[0] instanceof DbOption;
   }
 }

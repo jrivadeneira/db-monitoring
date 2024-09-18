@@ -1,5 +1,5 @@
 <div class="schema-preview">
-    <button *ngIf="!hideSaveButton" (click)="save()"> save </button>
+    <button *ngIf="!hideSaveButton()" (click)="save()"> save </button>
     <div class="preview-container">
       <div class="preview-item" *ngFor="let each of report()?.fields">
         <div class="preview-name">

@@ -23,7 +23,7 @@ export class ReportsTablePageComponent {
   }
 
   createReport(schema: Schema) {
-    this.reportService.setCurrentSchema(schema);
+    this.reportService.setCurrentSchema(Schema.fromData(schema));
     this.router.navigate(["report-editor"]);
   }
 

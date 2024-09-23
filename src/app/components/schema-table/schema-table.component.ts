@@ -33,7 +33,7 @@ export class SchemaTableComponent {
   }
 
   editButton(schema: Schema) {
-    this.schemaService.setCurrentSchema(schema);
+    this.schemaService.setCurrentSchema(Schema.fromData(schema));
     this.router.navigate(["schema-editor"]);
   }
 

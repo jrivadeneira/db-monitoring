@@ -1,16 +1,23 @@
-import {NgForOf, NgIf} from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { FormsModule } from '@angular/forms';
-import {SchemaService} from '../../services/schema.service';
-import {Schema, SchemaField} from '../../domain/schema';
-import {ReportEditorComponent} from '../report-editor/report-editor.component';
-import {Report} from '../../domain/report';
-import {BehaviorSubject, take} from 'rxjs';
+import { SchemaService } from '../../services/schema.service';
+import { Schema, SchemaField } from '../../domain/schema';
+import { ReportEditorComponent } from '../report-editor/report-editor.component';
+import { Report } from '../../domain/report';
+import { take } from 'rxjs';
+
 @Component({
   selector: 'db-schema-editor',
   standalone: true,
-  imports: [FormsModule, NgIf, NgForOf, DragDropModule, ReportEditorComponent],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgForOf,
+    DragDropModule,
+    ReportEditorComponent
+  ],
   templateUrl: './db-schema-editor.component.html',
   styleUrl: './db-schema-editor.component.scss'
 })

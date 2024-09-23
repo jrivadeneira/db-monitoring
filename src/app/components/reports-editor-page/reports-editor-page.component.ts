@@ -3,6 +3,7 @@ import {ReportEditorComponent} from '../report-editor/report-editor.component';
 import {Report} from '../../domain/report';
 import {Schema} from '../../domain/schema';
 import {ReportService} from '../../services/report.service';
+import {take} from 'rxjs';
 
 @Component({
   selector: 'app-reports-editor-page',
@@ -16,8 +17,9 @@ export class ReportsEditorPageComponent {
   constructor(
     private reportService: ReportService,
   ){
-    reportService.currentSchemaObservable.subscribe((schema:Schema) => {
+    reportService.currentSchemaObservable.pipe(take(1)).subscribe((schema:Schema) => {
       this.currentReport.update(()=>{
+        console.log("Updating Report From Schema!")
         return Report.createFromSchema(schema);
       })
     });

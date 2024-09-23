@@ -24,9 +24,7 @@ export class SchemaService {
   }
 
   save(schema: Schema) {
-    console.log('here!');
-    console.log(schema);
-    return ajax.post<Schema>("http://localhost:5000/schema", schema).subscribe((each: any) => {
+    return ajax.post<Schema>("http://localhost:5000/schema", schema).pipe(take(1)).subscribe((each: any) => {
       const responseSchema = each.response;
       this.setCurrentSchema(responseSchema);
       this.schemaSubject.asObservable().pipe(take(1)).subscribe((schemas: Schema[]) => {
@@ -41,7 +39,11 @@ export class SchemaService {
   }
 
   setCurrentSchema(schema: Schema){
-    this.currentSchemaSubject.next(schema);
+    this.currentSchemaSubject.asObservable().pipe(take(1)).subscribe((currentSchema: Schema) => {
+      if(!currentSchema.equals(schema)){
+        this.currentSchemaSubject.next(schema);
+      }
+    });
     console.log(schema);
   }
 }

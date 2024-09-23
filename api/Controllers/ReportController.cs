@@ -36,6 +36,7 @@ public class ReportController : ControllerBase {
     String sql = "INSERT INTO report_fields OUTPUT INSERTED.* VALUES ";
     foreach (ReportField eachField in fields) {
       String newsql = sql + "(" + reportId + ", '" + eachField.name + "', '" + eachField.type + "', '" + eachField.value +  "');";
+      Console.WriteLine(newsql);
       eachField.reportId = reportId;
       ReportField inserted = dapper.getDataSingle<ReportField>(newsql);
       eachField.id = inserted.id;

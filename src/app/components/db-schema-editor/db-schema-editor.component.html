@@ -24,7 +24,7 @@
       <input type="text" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
     </div>
     <div cdkDropList [cdkDropListData]="fieldList()" class="field-types-container" (cdkDropListDropped)="drop($event)">
-      <div cdkDrag [cdkDragData]="each" class="field-type" *ngFor="let each of fieldList(); index as i">
+      <div cdkDrag [cdkDragData]="each" class="field-type" (keyup)="refreshFields()" *ngFor="let each of fieldList(); index as i">
         <div *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)">
           {{each.name}}
         </div>
@@ -41,7 +41,7 @@
   here's the preview!
     </div>
   <div class="preview-content">
-  <app-report-editor [hideSaveButton]="true" [(report)]="constructReport"></app-report-editor>
+  <app-report-editor [hideSaveButton]="true" [report]="reportPreview()"></app-report-editor>
   </div>
   </div>
 </div>

@@ -1,11 +1,11 @@
 <div class="schema-preview">
     <button *ngIf="!hideSaveButton()" (click)="save()"> save </button>
     <div class="preview-container">
-      <div class="preview-item" *ngFor="let each of report()?.fields">
+      <div class="preview-item" *ngFor="let each of reportData?.fields">
         <div class="preview-name">
-          {{each.fieldName}}
+          {{each.name}}
         </div>
-        <input type="{{each.fieldType}}"/>
+        <input type="{{each.type}}" [(ngModel)]="each.value"/>
       </div>
     </div>
   </div>

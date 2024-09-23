@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from "rxjs/operators";
-import {DbOption} from './DbOption';
+import { DbOption } from './DbOption';
 @Component({
   selector: 'db-table',
   standalone: true,
@@ -14,16 +14,15 @@ export class DbTableComponent implements OnInit {
 
   @Input() headers: string[] = [];
   @Input() data!: Observable<any[]>;
-
   @Input() displayHeaders: string[] = [];
+
   public columnStyle: string = '';
   public dataList: string[] = [];
   private dataSubject: ReplaySubject<any[]> = new ReplaySubject(1);
   private dataListSubject: ReplaySubject<string[]> = new ReplaySubject(1);
   private sortIndex = -1;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.data.subscribe((data: any[]) => {
@@ -66,6 +65,7 @@ export class DbTableComponent implements OnInit {
   get dataListObservable(){
     return this.dataListSubject.asObservable();
   }
+
   // This function is going to get the number of columns in the table by 100%/number of headers
   get tableColumnsWidth(): number {
     return (100 / this.headers.length);
@@ -98,15 +98,25 @@ export class DbTableComponent implements OnInit {
     });
     this.extractTableData();
   }
+
   getType(item: any) {
     return typeof(item);
   }
 
-  isArray(item: any){
+  isArray(item: any) {
     return Array.isArray(item);
   }
 
-  isOptionArray(item: any){
+  isOptionArray(item: any) {
     return item[0] instanceof DbOption;
+  }
+
+  optionName(option: any) {
+    return option.name;
+  }
+
+  executeOption(option: any){
+    console.log("executing: ", option.name);
+    return option.run();
   }
 }

@@ -5,7 +5,11 @@
   @for(eachItem of dataListObservable|async; track eachItem){
     @if(isArray(eachItem)){
       @if(isOptionArray(eachItem)) {
-
+      <select class="table-options">
+        @for(eachOption of eachItem; track eachOption){
+          <option (click)="executeOption(eachOption)"> {{optionName(eachOption)}} </option>
+        }
+      </select>
       } @else {
       <div class="db-table-data">
         {{eachItem.length}}

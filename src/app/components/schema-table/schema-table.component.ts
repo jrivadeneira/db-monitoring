@@ -38,6 +38,6 @@ export class SchemaTableComponent {
   }
 
   createFrom(schema: Schema) {
-    this.editButton({...schema, id:0});
+    this.editButton(Schema.fromData({...schema, id:0}));
   }
 }

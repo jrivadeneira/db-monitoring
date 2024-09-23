@@ -42,23 +42,23 @@ export class DbSchemaEditorComponent {
       this.id = each.id;
       this.schemaName.update(() => {
         return each.name;
-      })
+      });
       this.singleton.update(() => {
         return each.singleton;
-      })
+      });
       this.fieldList.update(() => {
         return each.fields;
-      })
+      });
     });
   }
 
   submitFieldName() {
-    console.log("Adding FieldName");
     this.fieldList.update((values:SchemaField[]) => {
       values.push(new SchemaField(this.fieldName(), "text"));
-      return [...values];
+      return values;
     });
     this.fieldName.set("");
+    this.refreshFields();
   }
 
   deleteField(field: SchemaField){

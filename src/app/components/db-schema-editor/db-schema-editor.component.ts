@@ -28,7 +28,11 @@ export class DbSchemaEditorComponent {
   fieldType = signal("");
   fieldName = signal("");
   fieldList = signal<SchemaField[]>([]);
+
+  computedUpdateSignal = signal(1); // There is a reason for this
   reportPreview = computed<Report>(() => {
+    // using this to update the computed signal avoids the issue of needing to reinitalize the array each time.
+    const up = this.computedUpdateSignal();
     return Report.preview(this.fieldList());
   });
 
@@ -86,9 +90,11 @@ export class DbSchemaEditorComponent {
   }
 
   refreshFields(){
-    this.fieldList.update((fields: SchemaField[]) => {
-      return [...fields];
-    })
+    // this updates the number to a new value each time it is called.
+    // This avoids the memory overhead of remaking the entire report array every time the user presses a key.
+    this.computedUpdateSignal.update((value: number) => {
+      return ~value;
+    });
   }
 
   hideNameEditor(field: SchemaField) {

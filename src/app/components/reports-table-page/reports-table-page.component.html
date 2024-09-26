@@ -1,11 +1,2 @@
-<select>
-  <option class="select-item">
-    Create Report
-  </option>
-  @for(eachItem of schemas|async;track eachItem) {
-  <option class="select-item" (click)="createReport(eachItem)">
-    {{eachItem.name}}
-  </option>
-  }
-</select>
+<db-options-menu [menuName]="'New Report'" [items]="schemaSelections"></db-options-menu>
 <app-reports-table></app-reports-table>

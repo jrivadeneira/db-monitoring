@@ -5,7 +5,7 @@
   <div *ngFor="let eachItem of dataListObservable|async" class="db-table-data">
     @if(isArray(eachItem)) {
       @if(isOptionArray(eachItem)) {
-      <db-options-menu [menuName]="'Select Option'" [items]="optionsArray(eachItem)"></db-options-menu>
+      <db-options-menu [items]="optionsArray(eachItem)"></db-options-menu>
       } @else {
         {{eachItem.length}}
       }

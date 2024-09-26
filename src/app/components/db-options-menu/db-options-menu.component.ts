@@ -34,7 +34,6 @@ export class DbOptionsMenuComponent {
 
   // need to find a way to get rid of this if the menu isn't shown
   @HostListener('document:click', ['$event']) onDocumentClick() {
-    this.menuVisible.update(()=>false);
+    this.menuVisible.update(() => false);
   }
-
 }

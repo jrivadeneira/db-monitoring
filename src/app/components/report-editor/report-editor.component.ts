@@ -1,8 +1,8 @@
-import {NgForOf, NgIf} from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { Component, input, model } from '@angular/core';
-import {Report} from '../../domain/report';
-import {ReportService} from '../../services/report.service';
-import {FormsModule, NgModel} from '@angular/forms';
+import { Report } from '../../domain/report';
+import { ReportService } from '../../services/report.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-report-editor',
@@ -16,19 +16,19 @@ export class ReportEditorComponent {
   report = model<Report>();
   sampleReport = input<Report>();
 
-  constructor(private reportService: ReportService){
+  constructor(private reportService: ReportService) {
 
   }
 
-  save(){
-    if(this.report() !== undefined){
+  save() {
+    if (this.report() !== undefined) {
       const repo = this.report() as Report;
       this.reportService.saveReport(repo);
     }
   }
 
-  public get reportData(){
-    if(this.report()!==undefined){
+  public get reportData() {
+    if (this.report() !== undefined) {
       return this.report();
     } else {
       return this.sampleReport();

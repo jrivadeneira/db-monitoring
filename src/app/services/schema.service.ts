@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Schema } from '../domain/schema';
 import { ajax } from 'rxjs/ajax';
@@ -7,8 +7,8 @@ import { ajax } from 'rxjs/ajax';
   providedIn: 'root'
 })
 export class SchemaService {
-  currentSchemaSubject: ReplaySubject<Schema> = new ReplaySubject<Schema>(1);
-  schemaSubject: BehaviorSubject<Schema[]> = new BehaviorSubject<Schema[]>([]);
+  private currentSchemaSubject: BehaviorSubject<Schema> = new BehaviorSubject<Schema>(Schema.createEmptySchema());
+  private schemaSubject: BehaviorSubject<Schema[]> = new BehaviorSubject<Schema[]>([]);
   constructor() {
     this.getLatest();
   }
@@ -39,6 +39,7 @@ export class SchemaService {
   }
 
   setCurrentSchema(schema: Schema){
+    console.log("Setting schema");
     this.currentSchemaSubject.asObservable().pipe(take(1)).subscribe((currentSchema: Schema) => {
       if(!currentSchema.equals(schema)){
         this.currentSchemaSubject.next(schema);

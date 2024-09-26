@@ -1,12 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { take } from "rxjs/operators";
 import { DbOption } from './DbOption';
+import { DbOptionsMenuComponent } from '../db-options-menu/db-options-menu.component';
 @Component({
   selector: 'db-table',
   standalone: true,
-  imports: [NgForOf, NgStyle, AsyncPipe],
+  imports: [
+    NgForOf,
+    NgStyle,
+    AsyncPipe,
+    DbOptionsMenuComponent,
+  ],
   templateUrl: './db-table.component.html',
   styleUrl: './db-table.component.scss'
 })
@@ -17,20 +23,23 @@ export class DbTableComponent implements OnInit {
   @Input() displayHeaders: string[] = [];
 
   public columnStyle: string = '';
-  public dataList: string[] = [];
-  private dataSubject: ReplaySubject<any[]> = new ReplaySubject(1);
-  private dataListSubject: ReplaySubject<string[]> = new ReplaySubject(1);
+  private dataSubject: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
+  private dataListSubject: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
   private sortIndex = -1;
 
   constructor() {}
 
   ngOnInit(): void {
+    console.log("Init called")
     this.data.subscribe((data: any[]) => {
-      this.dataSubject.next(data);
       this.extractHeaders(data);
       this.setupColumnStyle();
-      this.extractTableData();
+      this.dataSubject.next(data);
     });
+    this.dataSubject.asObservable().subscribe((data: any[]) => {
+      console.log('Data updated!', data)
+      this.extractTableData();
+    })
   }
 
   private setupColumnStyle() {
@@ -50,19 +59,25 @@ export class DbTableComponent implements OnInit {
   }
 
   // extracts all the table data according to the headers for each object and stores it in the data list;
-  private extractTableData(){
-    this.dataList=[];
-    this.dataObservable.pipe().subscribe((newData:any[]) => {
+  private extractTableData() {
+    console.log("Subscribing to table data");
+    let dataList:string[] = [];
+    this.dataObservable.pipe(take(1)).subscribe((newData: any[]) => {
+      console.log("newData: ", newData)
       for(let eachItem of newData) {
         for(let eachHeader of this.headers) {
-          this.dataList = [...this.dataList,eachItem[eachHeader]];
+          const each = eachItem[eachHeader];
+          console.log("eachItem: ", each)
+          dataList.push(each);
         }
       }
+      console.log("finished extracting");
+      console.log("dataList", dataList);
+      this.dataListSubject.next(dataList);
     });
-    this.dataListSubject.next(this.dataList);
   }
 
-  get dataListObservable(){
+  get dataListObservable(): Observable<any[]> {
     return this.dataListSubject.asObservable();
   }
 
@@ -76,17 +91,21 @@ export class DbTableComponent implements OnInit {
   }
 
   public sortBy(colIndex: number) {
+    console.log("sortBy")
     if(colIndex === this.sortIndex) {
-      this.dataObservable.pipe(take(1)).subscribe((currentData: any[]) => {
+      this.dataObservable.pipe(take(1))
+      .subscribe((currentData: any[]) => {
+        console.log("reverse")
+      console.log('current Data:', currentData)
         this.dataSubject.next(currentData.reverse());
-        this.extractTableData();
       });
       return;
     }
     this.sortIndex = colIndex;
     const target = this.headers[colIndex];
     this.dataObservable.pipe(take(1)).subscribe((currentData: any[]) => {
-      this.dataSubject.next(currentData.sort((a,b)=> {
+      console.log('current Data:', currentData)
+      this.dataSubject.next(currentData.sort((a, b)=> {
         if(a[target] === b[target]) {
           return 0;
         }
@@ -96,7 +115,6 @@ export class DbTableComponent implements OnInit {
         return -1;
       }));
     });
-    this.extractTableData();
   }
 
   getType(item: any) {
@@ -115,8 +133,12 @@ export class DbTableComponent implements OnInit {
     return option.name;
   }
 
+  optionsArray(options: any):DbOption[]{
+    return options as DbOption[];
+  }
+
   executeOption(option: any){
-    console.log("executing: ", option.name);
+    // console.log("executing: ", option.name);
     return option.run();
   }
 }

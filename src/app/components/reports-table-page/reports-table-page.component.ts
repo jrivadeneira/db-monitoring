@@ -4,7 +4,7 @@ import { ReportService } from '../../services/report.service';
 import { Schema } from '../../domain/schema';
 import { AsyncPipe } from '@angular/common';
 import { SchemaService } from '../../services/schema.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-reports-table-page',
   standalone: true,
@@ -18,9 +18,7 @@ export class ReportsTablePageComponent {
     private reportService: ReportService,
     private schemaService: SchemaService,
     private router: Router,
-  ) {
-
-  }
+  ){}
 
   createReport(schema: Schema) {
     this.reportService.setCurrentSchema(Schema.fromData(schema));

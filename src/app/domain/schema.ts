@@ -25,6 +25,7 @@ export class Schema {
         schemaData.singleton,
         schemaData.id);
     }
+
     private compareFields(fields: SchemaField[]) :boolean {
       let ret = true;
       this.fields.forEach((eachField: SchemaField) => {

@@ -15,12 +15,11 @@ import {take} from 'rxjs';
 export class ReportsEditorPageComponent {
   currentReport = signal(Report.createFromSchema(Schema.createEmptySchema()));
   constructor(
-    private reportService: ReportService,
+    reportService: ReportService,
   ){
-    reportService.currentSchemaObservable.pipe(take(1)).subscribe((schema:Schema) => {
+    reportService.currentReportObservable.pipe(take(1)).subscribe((report: Report) => {
       this.currentReport.update(()=>{
-        console.log("Updating Report From Schema!")
-        return Report.createFromSchema(schema);
+        return Report.createFromExisting(report);
       })
     });
   }

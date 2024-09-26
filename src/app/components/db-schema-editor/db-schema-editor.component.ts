@@ -37,7 +37,7 @@ export class DbSchemaEditorComponent {
   });
 
   constructor(private schemaService: SchemaService){
-    schemaService.currentSchemaObservable.pipe(take(1)).subscribe((each:Schema) => {
+    schemaService.currentSchemaObservable.subscribe((each:Schema) => {
       console.log('loading schema');
       this.id = each.id;
       this.schemaName.update(() => {

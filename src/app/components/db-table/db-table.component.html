@@ -2,24 +2,15 @@
   <div class="db-table-header-item db-table-data" *ngFor="let eachItem of (displayHeaders.length?displayHeaders:headers); index as i" (click)=sortBy(i)>
     {{eachItem}}
   </div>
-  @for(eachItem of dataListObservable|async; track eachItem){
-    @if(isArray(eachItem)){
+  <div *ngFor="let eachItem of dataListObservable|async" class="db-table-data">
+    @if(isArray(eachItem)) {
       @if(isOptionArray(eachItem)) {
-      <select class="table-options">
-        @for(eachOption of eachItem; track eachOption){
-          <option (click)="executeOption(eachOption)"> {{optionName(eachOption)}} </option>
-        }
-      </select>
+      <db-options-menu [menuName]="'Select Option'" [items]="optionsArray(eachItem)"></db-options-menu>
       } @else {
-      <div class="db-table-data">
         {{eachItem.length}}
-      </div>
       }
-    }
-    @else{
-    <div class="db-table-data">
+    } @else {
       {{eachItem}}
-    </div>
     }
-  }
+  </div>
 </div>

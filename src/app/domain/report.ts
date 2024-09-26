@@ -20,16 +20,7 @@ export class Report{
     public schemaId: string,
     public fields: ReportField[],
     // public createdOn: Date = new Date(),
-    public tableOptions: DbOption[] = [
-      new DbOption("Select item", ()=>{
-        return undefined;
-      }),
-      new DbOption("Create From", () => {
-        const newReport = Report.createFromExisting(this);
-        console.log(newReport);
-        return newReport;
-      }),
-    ]
+    public tableOptions: DbOption[] = []
   ){}
 
   static preview(fields: SchemaField[]): Report {
@@ -49,6 +40,10 @@ export class Report{
     return new Report(0, schema.name, "", "", "" + schema.id, schema.fields.map((each) => {
       return new ReportField(each.name, each.type);
     }));
+  }
+
+  public static fromData(reportData: any) :Report {
+    return new Report(reportData.id,reportData.name,reportData.studyId,reportData.siteId,reportData.schemaId,reportData.fields);
   }
 
   static clone(report: Report): Report {

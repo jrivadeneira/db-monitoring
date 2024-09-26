@@ -3,16 +3,15 @@ import { BehaviorSubject } from 'rxjs';
 import { ajax } from "rxjs/ajax";
 import { take, Observable } from "rxjs";
 import { Report } from '../domain/report';
-import {Schema} from '../domain/schema';
+import { Schema } from '../domain/schema';
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
 
-  private reportSubject: BehaviorSubject<Report[]> = new BehaviorSubject<Report[]>([]);
+  private reportsSubject: BehaviorSubject<Report[]> = new BehaviorSubject<Report[]>([]);
 
-  private schemaSubject: BehaviorSubject<Schema> = new BehaviorSubject(Schema.createEmptySchema());
-
+  private reportSubject: BehaviorSubject<Report> = new BehaviorSubject(Report.createEmpty());
 
   constructor() {
     this.getReports();
@@ -24,7 +23,7 @@ export class ReportService {
         return Report.clone(each);
       });
       console.log('reports: ', newReports);
-      this.reportSubject.next(newReports);
+      this.reportsSubject.next(newReports);
     });
   }
 
@@ -38,27 +37,30 @@ export class ReportService {
   }
 
   getReportsObservable(): Observable<Report[]> {
-    return this.reportSubject.asObservable();
+    return this.reportsSubject.asObservable();
   }
 
   setCurrentSchema(schema: Schema){
-    this.schemaSubject.asObservable().pipe(take(1)).subscribe((currentSchema: Schema) => {
-      if(!currentSchema.equals(schema)) {
+    const report = Report.createFromSchema(schema);
+    this.reportSubject.asObservable().pipe(take(1)).subscribe(() => {
         console.log("Updated Schema: ", schema)
-        this.schemaSubject.next(schema);
-      }
+        this.reportSubject.next(report);
     });
     console.log(schema);
   }
 
-  get currentSchemaObservable(): Observable<Schema>{
-    return this.schemaSubject.asObservable();
+  get currentReportObservable(): Observable<Report>{
+    return this.reportSubject.asObservable();
   }
 
   updateReports(report: Report){
-    this.reportSubject.asObservable().pipe(take(1)).subscribe((reports: Report[]) => {
-      reports.push(report);
-      this.reportSubject.next(reports);
+    this.reportsSubject.asObservable().pipe(take(1)).subscribe((reports: Report[]) => {
+      reports.push(Report.fromData(report));
+      this.reportsSubject.next(reports);
     });
+  }
+
+  setCurrentReport(report: Report) {
+    this.reportSubject.next(report);
   }
 }

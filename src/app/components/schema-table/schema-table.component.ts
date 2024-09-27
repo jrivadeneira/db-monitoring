@@ -3,11 +3,14 @@ import { SchemaService } from '../../services/schema.service';
 import { Schema } from '../../domain/schema';
 import { NgForOf, NgIf } from '@angular/common';
 import {Router} from '@angular/router';
+import {DbTableComponent} from '../db-table/db-table.component';
+import {map, Observable} from 'rxjs';
+import {DbOption} from '../db-table/DbOption';
 
 @Component({
   selector: 'app-schema-table',
   standalone: true,
-  imports: [NgForOf, NgIf],
+  imports: [NgForOf, NgIf, DbTableComponent],
   templateUrl: './schema-table.component.html',
   styleUrl: './schema-table.component.scss'
 })
@@ -19,9 +22,29 @@ export class SchemaTableComponent {
   ) {
     this.refresh();
   }
+
   createNewSchema(){
     const schema = Schema.createEmptySchema();
     this.editButton(schema);
+  }
+
+  get schemaObservable(): Observable<any[]> {
+    return this.schemaService.schemaObservable.pipe(map((schemas: Schema[]) => {
+      {
+        return schemas.map((each:Schema) => {
+          return {
+            "Schema Name": each.name,
+            "Field Count": each.fields.length,
+            "": [
+              new DbOption("Edit",()=>{this.editButton(each)}),
+              new DbOption("Create From",()=>{this.createFrom(each)}),
+            ]
+          }
+        })
+
+
+      }
+    }));
   }
 
   refresh() {

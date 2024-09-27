@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from "rxjs/operators";
 import { DbOption } from './DbOption';
 import { DbOptionsMenuComponent } from '../db-options-menu/db-options-menu.component';
@@ -17,7 +17,6 @@ import { DbOptionsMenuComponent } from '../db-options-menu/db-options-menu.compo
   styleUrl: './db-table.component.scss'
 })
 export class DbTableComponent implements OnInit {
-
   @Input() headers: string[] = [];
   @Input() data!: Observable<any[]>;
   @Input() displayHeaders: string[] = [];

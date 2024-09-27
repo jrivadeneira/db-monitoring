@@ -6,6 +6,9 @@
 /out-tsc
 /bazel-out
 
+/api/obj/
+/api/bin/
+
 # Node
 /node_modules
 npm-debug.log
@@ -41,6 +44,3 @@ testem.log
 .DS_Store
 Thumbs.db
 
-api/obj/
-
-api/bin/

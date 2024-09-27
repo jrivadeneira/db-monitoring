@@ -1,14 +1,22 @@
 <div class="menu-container">
-  <div *ngIf="!!menuName()" class="menu-title" (click)="toggleMenu()">
+  <div *ngIf="!!menuName()" class="menu-title" (click)="showMenu($event)">
+    <div>
+      {{menuName()}}
+    </div>
+  </div>
+  <div *ngIf="!menuName()" class="menu-title" (click)="showMenu($event)">
     <h3>
       <i class="bi bi-list"></i>
     </h3>
   </div>
-  <div class="menu-items-container" *ngIf="menuVisible()">
+  <div class="menu-items-container" [ngClass]="{
+              'show-below': !!menuName(),
+              'hide-menu': !menuVisible()
+              }">
     @for(eachItem of items(); track eachItem){
-      <div class="menu-item" (click)="itemSelected(eachItem)">
-        {{eachItem.name}}
-      </div>
+    <div class="menu-item" (click)="itemSelected(eachItem)">
+      {{eachItem.name}}
+    </div>
     }
   </div>
 </div>

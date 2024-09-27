@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { SchemaService } from '../../services/schema.service';
 import { Schema } from '../../domain/schema';
 import { map, Observable } from 'rxjs';
 import { NgForOf, NgIf } from '@angular/common';

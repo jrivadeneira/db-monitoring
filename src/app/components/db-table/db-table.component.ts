@@ -30,14 +30,12 @@ export class DbTableComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log("Init called")
     this.data.subscribe((data: any[]) => {
       this.extractHeaders(data);
       this.setupColumnStyle();
       this.dataSubject.next(data);
     });
     this.dataSubject.asObservable().subscribe((data: any[]) => {
-      console.log('Data updated!', data)
       this.extractTableData();
     })
   }
@@ -60,19 +58,14 @@ export class DbTableComponent implements OnInit {
 
   // extracts all the table data according to the headers for each object and stores it in the data list;
   private extractTableData() {
-    console.log("Subscribing to table data");
     let dataList:string[] = [];
     this.dataObservable.pipe(take(1)).subscribe((newData: any[]) => {
-      console.log("newData: ", newData)
       for(let eachItem of newData) {
         for(let eachHeader of this.headers) {
           const each = eachItem[eachHeader];
-          console.log("eachItem: ", each)
           dataList.push(each);
         }
       }
-      console.log("finished extracting");
-      console.log("dataList", dataList);
       this.dataListSubject.next(dataList);
     });
   }
@@ -91,12 +84,9 @@ export class DbTableComponent implements OnInit {
   }
 
   public sortBy(colIndex: number) {
-    console.log("sortBy")
     if(colIndex === this.sortIndex) {
       this.dataObservable.pipe(take(1))
       .subscribe((currentData: any[]) => {
-        console.log("reverse")
-      console.log('current Data:', currentData)
         this.dataSubject.next(currentData.reverse());
       });
       return;
@@ -104,7 +94,6 @@ export class DbTableComponent implements OnInit {
     this.sortIndex = colIndex;
     const target = this.headers[colIndex];
     this.dataObservable.pipe(take(1)).subscribe((currentData: any[]) => {
-      console.log('current Data:', currentData)
       this.dataSubject.next(currentData.sort((a, b)=> {
         if(a[target] === b[target]) {
           return 0;
@@ -138,7 +127,6 @@ export class DbTableComponent implements OnInit {
   }
 
   executeOption(option: any){
-    // console.log("executing: ", option.name);
     return option.run();
   }
 }

@@ -1,17 +1,35 @@
 .menu-container{
-  position: absolute;
   display: flex;
   flex-direction: row;
 }
 
-.menu-items-container{
-  border: 1px solid lightgray;
+.menu-items-container.hide-menu{
+  overflow: hidden;
+  border: 0;
+  transform-origin: top;
+  transition: all .1s ease-in-out;
+  transform: scaleY(0);
 }
+
+.menu-items-container{
+  position: absolute;
+  border: 1px solid lightgray;
+  margin-left: 36px;
+  transform-origin: top;
+  transition: all .1s ease-in-out;
+  transform: scaleY(1);
+}
+
 .menu-item{
+  background: white;
   padding: 8px 16px 8px 16px;
 }
 
 .menu-item:hover{
-  background-color: deepskyblue;
+  background: deepskyblue;
   color: white;
+}
+
+.show-below{
+  margin: 33px 0 0 0;
 }

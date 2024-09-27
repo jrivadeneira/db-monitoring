@@ -6,8 +6,8 @@
 /out-tsc
 /bazel-out
 
-/obj
-/bin
+api/obj
+api/bin
 
 # Node
 /node_modules

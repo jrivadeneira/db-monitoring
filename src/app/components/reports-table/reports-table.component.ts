@@ -49,6 +49,7 @@ export class ReportsTableComponent {
         const site = each.fields.find((eachField: ReportField) => {
           return eachField.name.toString().toLowerCase() === "site";
           })?.value;
+          // Reports table display:
         return {
           "Report Id": each.id,
           "Report Type" : each.name,

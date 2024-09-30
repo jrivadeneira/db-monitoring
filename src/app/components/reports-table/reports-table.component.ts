@@ -3,7 +3,7 @@ import { Schema } from '../../domain/schema';
 import { map, Observable } from 'rxjs';
 import { NgForOf, NgIf } from '@angular/common';
 import { ReportService } from '../../services/report.service';
-import { Report } from '../../domain/report';
+import { Report, ReportField } from '../../domain/report';
 import { DbTableComponent } from '../db-table/db-table.component';
 import { Router } from '@angular/router';
 import { DbOption } from '../db-table/DbOption';
@@ -25,7 +25,7 @@ export class ReportsTableComponent {
   }
 
   // Adding table options here!
-  get reportDataObservable(): Observable<Report[]> {
+  get reportDataObservable(): Observable<any[]> {
     return this.reportService.getReportsObservable().pipe(map((reports: Report[]) => {
       reports.forEach((each: Report) => {
         if(each.tableOptions) {
@@ -39,7 +39,25 @@ export class ReportsTableComponent {
             each.tableOptions.push(createFromThisReport);
         }
       });
-      return reports;
+      return reports.map((each:Report) => {
+        const date = each.fields.find((eachField: ReportField) => {
+          return eachField.name.toString().toLowerCase() === "date";
+          })?.value;
+        const study = each.fields.find((eachField: ReportField) => {
+          return eachField.name.toString().toLowerCase() === "study";
+          })?.value;
+        const site = each.fields.find((eachField: ReportField) => {
+          return eachField.name.toString().toLowerCase() === "site";
+          })?.value;
+        return {
+          "Report Id": each.id,
+          "Report Type" : each.name,
+          "Date": date,
+          "Study": study,
+          "Site": site,
+          "" : each.tableOptions
+        }
+      });
     }));
   }
 

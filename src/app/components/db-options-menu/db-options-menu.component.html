@@ -1,6 +1,6 @@
 <div class="menu-container">
   <div *ngIf="!!menuName()" class="menu-title" (click)="showMenu($event)">
-    <div>
+    <div class="btn btn-secondary dropdown-toggle">
       {{menuName()}}
     </div>
   </div>

@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, signal, computed } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { take } from "rxjs/operators";
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from "rxjs/operators";
 import { DbOption } from './DbOption';
 import { DbOptionsMenuComponent } from '../db-options-menu/db-options-menu.component';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'db-table',
   standalone: true,
@@ -12,20 +13,58 @@ import { DbOptionsMenuComponent } from '../db-options-menu/db-options-menu.compo
     NgStyle,
     AsyncPipe,
     DbOptionsMenuComponent,
+    FormsModule
   ],
   templateUrl: './db-table.component.html',
   styleUrl: './db-table.component.scss'
 })
 export class DbTableComponent implements OnInit {
-
   @Input() headers: string[] = [];
   @Input() data!: Observable<any[]>;
   @Input() displayHeaders: string[] = [];
+  private sortIndex = signal(-1);
+  private reverseSort = signal(false);
+  public searchTerms = signal("");
+
+  public dataObservable = computed<Observable<any>>(()=>{
+    const sortIndex = this.sortIndex();
+    const searchTerm = this.searchTerms();
+    const reverseSort = this.reverseSort();
+    const filteredData =  this.dataSubject.asObservable().pipe(map((each:any) => {
+      const filtered = each.filter((eachLine:any) => {
+        const fil = this.asStringFromHeaders(eachLine).includes(searchTerm);
+        return fil;
+      });
+    const target = this.headers[sortIndex];
+    return filtered.sort((a:any, b:any)=>{
+      if(a[target] === b[target]){
+        return 0;
+      }
+      if(a[target] > b[target]) {
+        return reverseSort ? -1 : 1;
+      }
+      return reverseSort ? 1 : -1;
+    });
+    }));
+    return filteredData;
+  });
+
+  public dataListObservable = computed<Observable<any[]>>(()=>{
+    return this.dataObservable().pipe(map((rows: any[])=>{
+      let dataList = [];
+      for(let eachItem of rows) {
+        for(let eachHeader of this.headers) {
+          const each = eachItem[eachHeader];
+          dataList.push(each);
+        }
+      }
+      return dataList;
+    }))
+  });
+
 
   public columnStyle: string = '';
   private dataSubject: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
-  private dataListSubject: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
-  private sortIndex = -1;
 
   constructor() {}
 
@@ -35,9 +74,14 @@ export class DbTableComponent implements OnInit {
       this.setupColumnStyle();
       this.dataSubject.next(data);
     });
-    this.dataSubject.asObservable().subscribe((data: any[]) => {
-      this.extractTableData();
-    })
+  }
+
+  private asStringFromHeaders(obj: any){
+    let ret = "";
+    for(let eachHeader of this.headers){
+      ret += obj[eachHeader];
+    }
+    return ret;
   }
 
   private setupColumnStyle() {
@@ -56,54 +100,19 @@ export class DbTableComponent implements OnInit {
     }
   }
 
-  // extracts all the table data according to the headers for each object and stores it in the data list;
-  private extractTableData() {
-    let dataList:string[] = [];
-    this.dataObservable.pipe(take(1)).subscribe((newData: any[]) => {
-      for(let eachItem of newData) {
-        for(let eachHeader of this.headers) {
-          const each = eachItem[eachHeader];
-          dataList.push(each);
-        }
-      }
-      this.dataListSubject.next(dataList);
-    });
-  }
-
-  get dataListObservable(): Observable<any[]> {
-    return this.dataListSubject.asObservable();
-  }
 
   // This function is going to get the number of columns in the table by 100%/number of headers
   get tableColumnsWidth(): number {
     return (100 / this.headers.length);
   }
 
-  public get dataObservable(): Observable<any[]> {
-    return this.dataSubject.asObservable();
-  }
-
   public sortBy(colIndex: number) {
-    if(colIndex === this.sortIndex) {
-      this.dataObservable.pipe(take(1))
-      .subscribe((currentData: any[]) => {
-        this.dataSubject.next(currentData.reverse());
-      });
-      return;
+    if(this.sortIndex()!==colIndex){
+      this.sortIndex.update(()=>colIndex);
+      this.reverseSort.update(() => true);
+    } else {
+      this.reverseSort.update(()=>!this.reverseSort());
     }
-    this.sortIndex = colIndex;
-    const target = this.headers[colIndex];
-    this.dataObservable.pipe(take(1)).subscribe((currentData: any[]) => {
-      this.dataSubject.next(currentData.sort((a, b)=> {
-        if(a[target] === b[target]) {
-          return 0;
-        }
-        if(a[target] > b[target]) {
-          return 1;
-        }
-        return -1;
-      }));
-    });
   }
 
   getType(item: any) {

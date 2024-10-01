@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, signal, computed } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
 import { BehaviorSubject, Observable } from 'rxjs';
-import { take } from "rxjs/operators";
+import { filter, map, take } from "rxjs/operators";
 import { DbOption } from './DbOption';
 import { DbOptionsMenuComponent } from '../db-options-menu/db-options-menu.component';
+import {FormsModule} from '@angular/forms';
 @Component({
   selector: 'db-table',
   standalone: true,
@@ -12,6 +13,7 @@ import { DbOptionsMenuComponent } from '../db-options-menu/db-options-menu.compo
     NgStyle,
     AsyncPipe,
     DbOptionsMenuComponent,
+    FormsModule
   ],
   templateUrl: './db-table.component.html',
   styleUrl: './db-table.component.scss'
@@ -20,6 +22,21 @@ export class DbTableComponent implements OnInit {
   @Input() headers: string[] = [];
   @Input() data!: Observable<any[]>;
   @Input() displayHeaders: string[] = [];
+  public searchTerms = signal("");
+  public dataObservable = computed<Observable<any>>(()=>{
+    const filteredData =  this.dataSubject.asObservable().pipe(map((each:any) => {
+      const searchTerm = this.searchTerms();
+      console.log("SearchTerm:", searchTerm)
+      const filtered = each.filter((eachLine:any) => {
+        console.log("Eachline", eachLine.toString())
+        return eachLine.toString().includes(searchTerm);
+      });
+      console.log(filtered);
+      return filtered.sort();
+    }));
+    return filteredData;
+  });
+  //public dataListObservable
 
   public columnStyle: string = '';
   private dataSubject: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
@@ -58,7 +75,7 @@ export class DbTableComponent implements OnInit {
   // extracts all the table data according to the headers for each object and stores it in the data list;
   private extractTableData() {
     let dataList:string[] = [];
-    this.dataObservable.pipe(take(1)).subscribe((newData: any[]) => {
+    this.dataObservable().pipe(take(1)).subscribe((newData: any[]) => {
       for(let eachItem of newData) {
         for(let eachHeader of this.headers) {
           const each = eachItem[eachHeader];
@@ -70,7 +87,7 @@ export class DbTableComponent implements OnInit {
   }
 
   get dataListObservable(): Observable<any[]> {
-    return this.dataListSubject.asObservable();
+    return this.dataListSubject.asObservable().pipe();
   }
 
   // This function is going to get the number of columns in the table by 100%/number of headers
@@ -78,13 +95,9 @@ export class DbTableComponent implements OnInit {
     return (100 / this.headers.length);
   }
 
-  public get dataObservable(): Observable<any[]> {
-    return this.dataSubject.asObservable();
-  }
-
   public sortBy(colIndex: number) {
     if(colIndex === this.sortIndex) {
-      this.dataObservable.pipe(take(1))
+      this.dataObservable().pipe(take(1))
       .subscribe((currentData: any[]) => {
         this.dataSubject.next(currentData.reverse());
       });
@@ -92,7 +105,7 @@ export class DbTableComponent implements OnInit {
     }
     this.sortIndex = colIndex;
     const target = this.headers[colIndex];
-    this.dataObservable.pipe(take(1)).subscribe((currentData: any[]) => {
+    this.dataObservable().pipe(take(1)).subscribe((currentData: any[]) => {
       this.dataSubject.next(currentData.sort((a, b)=> {
         if(a[target] === b[target]) {
           return 0;

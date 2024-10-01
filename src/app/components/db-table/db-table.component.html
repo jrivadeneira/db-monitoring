@@ -1,4 +1,8 @@
+<div class="searchbar-container">
+  Search: <input type="text" [(ngModel)]="searchTerms">
+</div>
 <div class="db-table-container" [ngStyle]="{'grid-template-columns': columnStyle}">
+
   <div class="db-table-header-item db-table-data" *ngFor="let eachItem of (displayHeaders.length?displayHeaders:headers); index as i" (click)=sortBy(i)>
     {{eachItem}}
   </div>

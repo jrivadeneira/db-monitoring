@@ -6,7 +6,7 @@
   <div class="db-table-header-item db-table-data" *ngFor="let eachItem of (displayHeaders.length?displayHeaders:headers); index as i" (click)=sortBy(i)>
     {{eachItem}}
   </div>
-  <div *ngFor="let eachItem of dataListObservable|async" class="db-table-data">
+  <div *ngFor="let eachItem of dataListObservable()|async" class="db-table-data">
     @if(isArray(eachItem)) {
       @if(isOptionArray(eachItem)) {
       <db-options-menu [items]="optionsArray(eachItem)"></db-options-menu>

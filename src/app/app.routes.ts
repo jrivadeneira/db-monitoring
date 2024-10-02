@@ -12,7 +12,7 @@ export const routes: Routes = [
     
   },
   {
-   path: 'home', component: ReportsTablePageComponent,   pathMatch: 'full'
+   path: 'home', component: ReportsTablePageComponent
   
 },
   {
@@ -22,9 +22,15 @@ export const routes: Routes = [
      path: 'schema-editor', component: SchemaEditorPageComponent
   },
   {
+   path: 'schema-editor/:{id}', component: SchemaEditorPageComponent
+},
+  {
      path: 'users', component: UsersTablePageComponent
   },
   {
      path: 'report-editor', component: ReportsEditorPageComponent
   },
+  {
+   path: 'report-editor/:{id}', component: ReportsEditorPageComponent
+}
 ];

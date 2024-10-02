@@ -1,5 +1,5 @@
-import {DbOption} from "../components/db-table/DbOption";
-import {Schema, SchemaField} from "./schema";
+import { DbOption } from "../components/db-table/DbOption";
+import { Schema, SchemaField } from "./schema";
 
 export class ReportField{
   constructor(
@@ -8,6 +8,10 @@ export class ReportField{
     public value: string = "",
     public reportId: number = 0,
   ){}
+
+  public static fromData(data: any):ReportField{
+    return new ReportField(data.name,data.type,data.value,data.reportId);
+  }
 }
 
 export class Report{
@@ -19,7 +23,6 @@ export class Report{
     public siteId: string,
     public schemaId: string,
     public fields: ReportField[],
-    // public createdOn: Date = new Date(),
     public tableOptions: DbOption[] = []
   ){}
 
@@ -34,16 +37,15 @@ export class Report{
   }
 
   static createFromSchema(schema: Schema):Report{
-    // We need to get studies and sites
-    // do reports need names?
-    // reports can have a date field
     return new Report(0, schema.name, "", "", "" + schema.id, schema.fields.map((each) => {
       return new ReportField(each.name, each.type);
     }));
   }
 
   public static fromData(reportData: any) :Report {
-    return new Report(reportData.id,reportData.name,reportData.studyId,reportData.siteId,reportData.schemaId,reportData.fields);
+    return new Report(reportData.id,reportData.name,reportData.studyId,reportData.siteId,reportData.schemaId,reportData.fields.map((each:ReportField) => {
+      return ReportField.fromData(each);
+    }));
   }
 
   static clone(report: Report): Report {

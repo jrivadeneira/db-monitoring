@@ -24,12 +24,13 @@ export class ReportEditorComponent {
     if (this.report() !== undefined) {
       const repo = this.report() as Report;
       this.reportService.saveReport(repo);
+      this._location.back();
     }
   }
 cancel(){
   //navigate back to the previous page
   this._location.back();
- 
+
 }
   public get reportData() {
     if (this.report() !== undefined) {

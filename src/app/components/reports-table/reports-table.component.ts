@@ -84,9 +84,10 @@ export class ReportsTableComponent {
 
   editReport(report: Report) {
     console.log("Editing:", report)
-    this.reportService.setCurrentReport(report);
+    this.reportService.setCurrentReport(Report.fromData(report));
     this.router.navigate(["report-editor"]);
   }
+
   createFrom(report: Report) {
     const newReport: Report = Report.createFromExisting(report);
     this.reportService.setCurrentReport(newReport);

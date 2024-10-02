@@ -1,20 +1,28 @@
-<h1>schema details</h1>
-<button (click)="save()"> save </button>
-<div class="schema-details-container">
+<div class="schema-wrapper">
+<div class="schema-item">
+<h3>Form template details</h3>
+<div class="schema-details-container ">
   <div class="schema-detail">
-    <div class="detail-label">
-      schema name
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label"> Template name:</label>
+      <input type="text" class="form-control" [(ngModel)]="schemaName"/>
     </div>
-    <input type="text" [(ngModel)]="schemaName"/>
   </div>
   <div class="schema-detail">
-    <div class="detail-label">
-      singleton?
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [(ngModel)]="singleton">
+      <label class="form-check-label" for="flexCheckDefault">
+        singleton
+      </label>
     </div>
-    <input type="checkbox" [(ngModel)]="singleton"/>
   </div>
+  <div class="schema-detail">
+    <button class="btn btn-primary" (click)="save()"> Save </button>
+    </div>
 </div>
-<h1>schema editor</h1>
+</div>
+<div class="schema-item">
+<h3>Form template</h3>
 <div class="schema-editor-container">
   <div class="fields-editor">
     <div class="field-name-entry">
@@ -44,4 +52,6 @@
       <app-report-editor [hideSaveButton]="true" [report]="reportPreview()"></app-report-editor>
     </div>
   </div>
+</div>
+</div>
 </div>

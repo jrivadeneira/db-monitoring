@@ -30,7 +30,7 @@ export class ReportsTableComponent {
       reports.forEach((each: Report) => {
         if(each.tableOptions) {
           const createFromThisReport = new DbOption(
-            "Create From",
+            "Open report",
             (info: Report) => {
               this.createFrom(info)
             },

@@ -1,5 +1,5 @@
 <div class="schema-preview">
-    <button *ngIf="!hideSaveButton()" (click)="save()"> save </button>
+
     <div class="preview-container">
       <div class="preview-item" *ngFor="let each of reportData?.fields">
         <label for="{{each.name}}" class="form-label">{{each.name}}</label>
@@ -9,4 +9,6 @@
         <input type="{{each.type}}" class="form-control"  [(ngModel)]="each.value"/>
       </div>
     </div>
+    <button *ngIf="!hideSaveButton()" class="btn btn-success" (click)="save()"> save </button> &nbsp;
+    <button *ngIf="!hideSaveButton()" type="button" class="btn btn-outline-secondary" (click)="cancel()">cancel</button>
   </div>

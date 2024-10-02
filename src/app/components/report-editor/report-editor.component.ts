@@ -1,4 +1,4 @@
-import { NgForOf, NgIf } from '@angular/common';
+import { CommonModule, Location, NgForOf, NgIf } from '@angular/common';
 import { Component, input, model } from '@angular/core';
 import { Report } from '../../domain/report';
 import { ReportService } from '../../services/report.service';
@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-report-editor',
   standalone: true,
-  imports: [NgForOf, NgIf, FormsModule],
+  imports: [NgForOf, NgIf, FormsModule, CommonModule],
   templateUrl: './report-editor.component.html',
   styleUrl: './report-editor.component.scss'
 })
@@ -16,7 +16,7 @@ export class ReportEditorComponent {
   report = model<Report>();
   sampleReport = input<Report>();
 
-  constructor(private reportService: ReportService) {
+  constructor(private reportService: ReportService, private _location: Location) {
 
   }
 
@@ -26,7 +26,11 @@ export class ReportEditorComponent {
       this.reportService.saveReport(repo);
     }
   }
-
+cancel(){
+  //navigate back to the previous page
+  this._location.back();
+ 
+}
   public get reportData() {
     if (this.report() !== undefined) {
       return this.report();

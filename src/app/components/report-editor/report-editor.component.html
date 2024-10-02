@@ -6,7 +6,10 @@
         <!-- <div class="preview-name">
           {{each.name}}
         </div> -->
-        <input type="{{each.type}}" class="form-control"  [(ngModel)]="each.value"/>
+        <input type="{{each.type}}" [ngClass]="{
+                     'form-control': each.type !== 'checkbox',
+                     'form-check-input': each.type === 'checkbox'
+                     }">
       </div>
     </div>
     <button *ngIf="!hideSaveButton()" class="btn btn-success" (click)="save()"> save </button> &nbsp;

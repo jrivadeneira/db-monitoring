@@ -1,0 +1,7 @@
+<div class="db-select-container">
+  <input name="a" type="text" [(ngModel)]="selected"/>
+  <div> first</div>
+  <div class="db-select-options" *ngFor="let eachItem of options()">
+    {{eachItem.name}}
+  </div>
+</div>

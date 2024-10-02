@@ -6,6 +6,9 @@ export class SchemaField{
       public id: number = 0,
       public schemaId: number = 0,
   ){}
+    public static createEmpty(): SchemaField{
+      return new SchemaField("", "", false);
+    }
 }
 
 export class Schema {

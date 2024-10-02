@@ -16,7 +16,7 @@ import { Report } from '../../domain/report';
     NgForOf,
     DragDropModule,
     ReportEditorComponent,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './db-schema-editor.component.html',
   styleUrl: './db-schema-editor.component.scss'
@@ -28,6 +28,7 @@ export class DbSchemaEditorComponent {
   fieldType = signal("");
   fieldName = signal("");
   fieldList = signal<SchemaField[]>([]);
+  selectedRuleField = signal<SchemaField>(SchemaField.createEmpty());
 
   computedUpdateSignal = signal(1); // There is a reason for this
   reportPreview = computed<Report>(() => {

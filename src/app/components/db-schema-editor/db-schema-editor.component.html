@@ -1,73 +1,70 @@
 <div class="schema-wrapper">
-<div class="schema-item">
-<h3>Form template details</h3>
-<div class="schema-details-container">
-  <div class="schema-detail">
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"> Template name:</label>
-      <input type="text" class="form-control" [(ngModel)]="schemaName"/>
-    </div>
-  </div>
-  <div class="schema-detail">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [(ngModel)]="singleton">
-      <label class="form-check-label" for="flexCheckDefault">
-        singleton
-      </label>
-    </div>
-  </div>
-  <div class="schema-detail">
-    <button class="btn btn-primary" (click)="save()"> Save </button>
-    </div>
-</div>
-</div>
-<div class="schema-item">
-<h3>Form template</h3>
-<div class="schema-editor-container">
-  <div class="field-name-entry">
-    <h5>Form</h5>
-    <label for="fieldName" class="form-label">Field name</label>
-    <input type="text" class="form-control" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
-  </div>
-  <div class="fields-editor">
-  <h5>Form builder</h5>
-    <div cdkDropList [cdkDropListData]="fieldList()" class="field-types-container" (cdkDropListDropped)="drop($event)">
-      <div cdkDrag [cdkDragData]="each" class="field-type" (keyup)="refreshFields()" *ngFor="let each of fieldList(); index as i; let index = index" (mouseenter)="addClass(index)" (mouseleave)="removeClass(index)" [ngClass]="{'hovered':isHovered && index === Cindex}">
-        <div class="control-util-bar">
-          <span cdkDragHandle class="material-symbols-outlined">
-            drag_handle
-            </span>
-            <span class="material-symbols-outlined" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-              settings
-              </span>
-          <span class="material-symbols-outlined" (click)="deleteField(each)">
-            delete
-            </span>
-
+  <div class="schema-item">
+    <h3>Form template details</h3>
+    <div class="schema-details-container">
+      <div class="schema-detail">
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label"> Template name:</label>
+          <input type="text" class="form-control" [(ngModel)]="schemaName"/>
         </div>
-            <!-- <div *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)">
-          {{each.name}}
-        <input type="text" class="form-control"  [(ngModel)]="each.type"/>
-        </div> -->
-        <label *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)" for="name" class="form-label">{{each.name}}</label>
-        <input *ngIf="each.editingName" class="form-control" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
-        <select class="form-control" [(ngModel)]="each.type" (change)="refreshFields()">
-          <option [ngValue]="'text'"> text </option>
-          <option [ngValue]="'date'"> date </option>
-          <option [ngValue]="'number'"> number </option>
-          <option [ngValue]="'checkbox'"> checkbox </option>
-        </select>
+      </div>
+      <div class="schema-detail">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [(ngModel)]="singleton">
+          <label class="form-check-label" for="flexCheckDefault">
+            singleton
+          </label>
+        </div>
+      </div>
+      <div class="schema-detail">
+        <button class="btn btn-primary" (click)="save()"> Save </button>
       </div>
     </div>
   </div>
-  <div class="report-preview-container">
-    <h5>Form preview</h5>
-    <div class="preview-content">
-      <app-report-editor [hideSaveButton]="true" [report]="reportPreview()"></app-report-editor>
+  <div class="schema-item">
+    <h3>Form template</h3>
+    <div class="schema-editor-container">
+      <div class="field-name-entry">
+        <h5>Form</h5>
+        <label for="fieldName" class="form-label">Field name</label>
+        <input type="text" class="form-control" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
+      </div>
+      <div class="fields-editor">
+        <h5>Form builder</h5>
+        <div cdkDropList [cdkDropListData]="fieldList()" class="field-types-container" (cdkDropListDropped)="drop($event)">
+          <div cdkDrag [cdkDragData]="each" class="field-type" (keyup)="refreshFields()" *ngFor="let each of fieldList(); index as i; let index = index" (mouseenter)="addClass(index)" (mouseleave)="removeClass(index)" [ngClass]="{'hovered':isHovered && index === Cindex}">
+            <div class="control-util-bar">
+              <span cdkDragHandle class="material-symbols-outlined">
+                drag_handle
+              </span>
+              <span class="material-symbols-outlined" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                settings
+              </span>
+              <span class="material-symbols-outlined" (click)="deleteField(each)">
+                delete
+              </span>
+
+            </div>
+
+            <label *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)" for="name" class="form-label">{{each.name}}</label>
+            <input *ngIf="each.editingName" class="form-control" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
+            <select class="form-control" [(ngModel)]="each.type" (change)="refreshFields()">
+              <option [ngValue]="'text'"> text </option>
+              <option [ngValue]="'date'"> date </option>
+              <option [ngValue]="'number'"> number </option>
+              <option [ngValue]="'checkbox'"> checkbox </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="report-preview-container">
+        <h5>Form preview</h5>
+        <div class="preview-content">
+          <app-report-editor [hideSaveButton]="true" [report]="reportPreview()"></app-report-editor>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -96,23 +93,20 @@
               <div class="mb-3">
                 <label for="label" class="form-label">Label</label>
                 <input type="text" class="form-control" id="label" aria-describedby="label">
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
               </div>
 
               <div class="mb-3">
                 <label for="placeholder" class="form-label">Placeholder</label>
                 <input type="text" class="form-control" id="placeholder" aria-describedby="label">
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
               </div>
               <div class="mb-3">
                 <label for="subtext" class="form-label">Sub text</label>
                 <input type="text" class="form-control" id="subtext" aria-describedby="label">
-               <div id="emailHelp" class="form-text">This is the text that will appear under the field</div>
+                <div id="emailHelp" class="form-text">This is the text that will appear under the field</div>
               </div>
               <div class="mb-3">
                 <label for="defaultvalue" class="form-label">Default Value</label>
                 <input type="text" class="form-control" id="defaultvalue" aria-describedby="label">
-               <!-- <div id="emailHelp" class="form-text">This is the text that will appear under the field</div>  -->
               </div>
               <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -136,40 +130,32 @@
           </div>
           <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
             <form>
-            <div class="mb-3">
-              <label for="label" class="form-label">Validate on</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Select</option>
-                <option value="1">Change</option>
-                <option value="2">Blur</option>
-
-              </select>
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Required</label>
-            </div>
-            <div class="mb-3">
-              <label for="placeholder" class="form-label">Max value</label>
-              <input type="text" class="form-control" id="placeholder" aria-describedby="label">
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3">
-              <label for="subtext" class="form-label">Min value</label>
-              <input type="text" class="form-control" id="subtext" aria-describedby="label">
-
-            </div>
-            <div class="mb-3">
-              <label for="defaultvalue" class="form-label">Error label</label>
-              <input type="text" class="form-control" id="defaultvalue" aria-describedby="label">
-             <!-- <div id="emailHelp" class="form-text">This is the text that will appear under the field</div>  -->
-            </div>
-
-
-
-          </form>
-        </div>
+              <div class="mb-3">
+                <label for="label" class="form-label">Validate on</label>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Select</option>
+                  <option value="1">Change</option>
+                  <option value="2">Blur</option>
+                </select>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Required</label>
+              </div>
+              <div class="mb-3">
+                <label for="placeholder" class="form-label">Max value</label>
+                <input type="text" class="form-control" id="placeholder" aria-describedby="label">
+              </div>
+              <div class="mb-3">
+                <label for="subtext" class="form-label">Min value</label>
+                <input type="text" class="form-control" id="subtext" aria-describedby="label">
+              </div>
+              <div class="mb-3">
+                <label for="defaultvalue" class="form-label">Error label</label>
+                <input type="text" class="form-control" id="defaultvalue" aria-describedby="label">
+              </div>
+            </form>
+          </div>
           <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
             <form>
               <div class="mb-3">
@@ -178,34 +164,44 @@
                   <option selected>Select</option>
                   <option value="1">True</option>
                   <option value="2">False</option>
-
                 </select>
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
               </div>
               <div class="mb-3">
                 <label for="label" class="form-label">When the following question:</label>
-                <select class="form-select" aria-label="Default select example">
+                <select name="bob" [(ngModel)]="selectedRuleField" class="form-select" aria-label="Default select example">
                   <option selected>Select</option>
-                  <option *ngFor="let eachField of fieldList()" [value]="eachField.name">
-                    {{eachField.name}}
+                  <option *ngFor="let eachField of fieldList()" [ngValue]="eachField">
+                  {{eachField.name}}
                   </option>
                 </select>
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
               </div>
               <div class="mb-3">
+                <p>selected: {{selectedRuleField().name}}</p>
                 <label for="label" class="form-label">When the value is:</label>
                 <select class="form-select" aria-label="Default select example">
                   <option selected>Select</option>
+                  @if(selectedRuleField().type==="number"){
                   <option value="1">Equal to</option>
-                  <option value="1">Less than</option>
-                  <option value="1">Greater than</option>
+                  <option value="2">Less than</option>
+                  <option value="3">Greater than</option>
+                  }
+                  @if(selectedRuleField().type==="date"){
+                  <option value="1">Equal To</option>
+                  <option value="2">Before</option>
+                  <option value="3">After</option>
+                  }
+                  @if(selectedRuleField().type==="checkbox"){
+                  <option value="1">Checked</option>
+                  <option value="2">Unchecked</option>
+                  }
+                  @if(selectedRuleField().type==="text"){
+                  <option value="1">Equal to</option>
+                  }
                 </select>
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
               </div>
-              <div class="mb-3">
+              <div class="mb-3" *ngIf="selectedRuleField().type!=='checkbox'">
                 <label for="placeholder" class="form-label">Value:</label>
                 <input type="text" class="form-control" id="placeholder" aria-describedby="label">
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
               </div>
             </form>
           </div>

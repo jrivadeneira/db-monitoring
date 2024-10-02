@@ -1,6 +1,6 @@
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
-import { DragDropModule } from '@angular/cdk/drag-drop'
+import { DragDropModule, moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop'
 import { FormsModule } from '@angular/forms';
 import { SchemaService } from '../../services/schema.service';
 import { Schema, SchemaField } from '../../domain/schema';
@@ -36,7 +36,7 @@ export class DbSchemaEditorComponent {
     const up = this.computedUpdateSignal();
     return Report.preview(this.fieldList());
   });
-
+  rows: { label: string, value: string }[] = [{ label: '', value: '' }];
   constructor(private schemaService: SchemaService){
     schemaService.currentSchemaObservable.subscribe((each:Schema) => {
       console.log('loading schema');
@@ -128,5 +128,16 @@ export class DbSchemaEditorComponent {
   removeClass(index:any){
     this.Cindex = index;
     this.isHovered = false;
+  }
+  
+  addRow() {
+    this.rows.push({ label: '', value: '' });
+  }
+
+  deleteRow(index: number) {
+    this.rows.splice(index, 1);
+  }
+ dropOptions(event: CdkDragDrop<{ label: string, value: string }[]>) {
+    moveItemInArray(this.rows, event.previousIndex, event.currentIndex);
   }
 }

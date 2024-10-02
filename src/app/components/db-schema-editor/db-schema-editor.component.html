@@ -145,22 +145,25 @@
                     <th scope="col">&nbsp;</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">    <span cdkDragHandle class="material-symbols-outlined">
-                      drag_handle
-                    </span></th>
-                    <td>  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Label">
+                <tbody cdkDropList (cdkDropListDropped)="dropOptions($event)">
+                  <tr *ngFor="let row of rows; let i = index" cdkDrag>
+                    <th scope="row" class="align-middle">
+                      <span cdkDragHandle class="material-symbols-outlined">drag_handle</span>
+                    </th>
+                    <td class="align-middle">
+                      <input type="text" class="form-control" [(ngModel)]="row.label" placeholder="Label">
                     </td>
-                    <td><input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Value"></td>
-                    <td>  <span class="material-symbols-outlined">
-                      delete
-                    </span></td>
+                    <td class="align-middle">
+                      <input type="text" class="form-control" [(ngModel)]="row.value" placeholder="Value">
+                    </td>
+                    <td class="align-middle">
+                      <span class="material-symbols-outlined" (click)="deleteRow(i)">delete</span>
+                    </td>
                   </tr>
-          
+
                   <tr>
                     <th colspan="4" scope="row">
-                      <button type="button" class="btn btn-outline-primary">Add another</button></th>
+                      <button type="button" class="btn btn-outline-primary" (click)="addRow()">Add another</button></th>
                   </tr>
                 </tbody>
               </table>
@@ -214,7 +217,7 @@
                 </select>
               </div>
               <div class="mb-3">
-                <p>selected: {{selectedRuleField().name}}</p>
+         
                 <label for="label" class="form-label">When the value is:</label>
                 <select class="form-select" aria-label="Default select example">
                   <option selected>Select</option>

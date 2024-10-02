@@ -2,10 +2,11 @@
     <button *ngIf="!hideSaveButton()" (click)="save()"> save </button>
     <div class="preview-container">
       <div class="preview-item" *ngFor="let each of reportData?.fields">
-        <div class="preview-name">
+        <label for="{{each.name}}" class="form-label">{{each.name}}</label>
+        <!-- <div class="preview-name">
           {{each.name}}
-        </div>
-        <input type="{{each.type}}" [(ngModel)]="each.value"/>
+        </div> -->
+        <input type="{{each.type}}" class="form-control"  [(ngModel)]="each.value"/>
       </div>
     </div>
   </div>

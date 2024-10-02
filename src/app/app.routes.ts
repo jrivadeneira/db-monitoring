@@ -6,9 +6,15 @@ import { UsersTablePageComponent } from './components/users-table-page/users-tab
 import {ReportsEditorPageComponent} from './components/reports-editor-page/reports-editor-page.component';
 
 export const routes: Routes = [
+
   {
-     path: '', component: ReportsTablePageComponent
+     path: '', redirectTo:'home',  pathMatch: 'full'
+    
   },
+  {
+   path: 'home', component: ReportsTablePageComponent,   pathMatch: 'full'
+  
+},
   {
      path: 'schemas', component: SchemaTablePageComponent
   },

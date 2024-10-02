@@ -19,7 +19,8 @@ export class ReportsEditorPageComponent {
   ){
     reportService.currentReportObservable.pipe(take(1)).subscribe((report: Report) => {
       this.currentReport.update(()=>{
-        return Report.createFromExisting(report);
+
+        return Report.fromData(report);
       })
     });
   }

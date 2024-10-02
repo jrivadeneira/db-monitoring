@@ -48,7 +48,7 @@
 
             <label *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)" for="name" class="form-label">{{each.name}}</label>
             <input *ngIf="each.editingName" class="form-control" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
-            <select class="form-control" [(ngModel)]="each.type" (change)="refreshFields()">
+            <select class="form-select" [(ngModel)]="each.type" (change)="refreshFields()">
               <option [ngValue]="'text'"> text </option>
               <option [ngValue]="'date'"> date </option>
               <option [ngValue]="'number'"> number </option>

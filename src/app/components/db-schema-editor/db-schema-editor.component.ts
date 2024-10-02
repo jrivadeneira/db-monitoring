@@ -6,7 +6,6 @@ import { SchemaService } from '../../services/schema.service';
 import { Schema, SchemaField } from '../../domain/schema';
 import { ReportEditorComponent } from '../report-editor/report-editor.component';
 import { Report } from '../../domain/report';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'db-schema-editor',
@@ -121,12 +120,12 @@ export class DbSchemaEditorComponent {
 
   Cindex= 0;
   isHovered = false;
-addClass(index:any){
-this.Cindex = index;
-this.isHovered = true;
-}
-removeClass(index:any){
-  this.Cindex = index;
-  this.isHovered = false;
-}
+  addClass(index:any){
+    this.Cindex = index;
+    this.isHovered = true;
+  }
+  removeClass(index:any){
+    this.Cindex = index;
+    this.isHovered = false;
+  }
 }

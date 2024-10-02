@@ -47,11 +47,16 @@
         </div>
             <!-- <div *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)">
           {{each.name}}
+        <input type="text" class="form-control"  [(ngModel)]="each.type"/>
         </div> -->
         <label *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)" for="name" class="form-label">{{each.name}}</label>
         <input *ngIf="each.editingName" class="form-control" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
-        <input type="text" class="form-control"  [(ngModel)]="each.type"/>
-
+        <select class="form-control" [(ngModel)]="each.type" (change)="refreshFields()">
+          <option [ngValue]="'text'"> text </option>
+          <option [ngValue]="'date'"> date </option>
+          <option [ngValue]="'number'"> number </option>
+          <option [ngValue]="'checkbox'"> checkbox </option>
+        </select>
       </div>
     </div>
   </div>

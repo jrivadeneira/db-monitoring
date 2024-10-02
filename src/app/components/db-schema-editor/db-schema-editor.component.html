@@ -37,7 +37,7 @@
           <span cdkDragHandle class="material-symbols-outlined">
             drag_handle
             </span>
-            <span cdkDragHandle class="material-symbols-outlined">
+            <span class="material-symbols-outlined" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
               settings
               </span>
           <span class="material-symbols-outlined" (click)="deleteField(each)">
@@ -63,4 +63,150 @@
   </div>
 </div>
 </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Text Field Component</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#display-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Display</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Validation</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Conditional</button>
+          </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="display-tab-pane" role="tabpanel" aria-labelledby="display-tab" tabindex="0">
+            <form>
+              <div class="mb-3">
+                <label for="label" class="form-label">Label</label>
+                <input type="text" class="form-control" id="label" aria-describedby="label">
+                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+              </div>
+              
+              <div class="mb-3">
+                <label for="placeholder" class="form-label">Placeholder</label>
+                <input type="text" class="form-control" id="placeholder" aria-describedby="label">
+                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+              </div>
+              <div class="mb-3">
+                <label for="subtext" class="form-label">Sub text</label>
+                <input type="text" class="form-control" id="subtext" aria-describedby="label">
+               <div id="emailHelp" class="form-text">This is the text that will appear under the field</div> 
+              </div>
+              <div class="mb-3">
+                <label for="defaultvalue" class="form-label">Default Value</label>
+                <input type="text" class="form-control" id="defaultvalue" aria-describedby="label">
+               <!-- <div id="emailHelp" class="form-text">This is the text that will appear under the field</div>  -->
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Hidden</label>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Hide Label</label>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Initial Focus</label>
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Disabled</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+          </div>
+          <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">      
+            <form>
+            <div class="mb-3">
+              <label for="label" class="form-label">Validate on</label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Select</option>
+                <option value="1">Change</option>
+                <option value="2">Blur</option>
+             
+              </select>
+              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Required</label>
+            </div>
+            <div class="mb-3">
+              <label for="placeholder" class="form-label">Max value</label>
+              <input type="text" class="form-control" id="placeholder" aria-describedby="label">
+              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+            </div>
+            <div class="mb-3">
+              <label for="subtext" class="form-label">Min value</label>
+              <input type="text" class="form-control" id="subtext" aria-describedby="label">
+          
+            </div>
+            <div class="mb-3">
+              <label for="defaultvalue" class="form-label">Error label</label>
+              <input type="text" class="form-control" id="defaultvalue" aria-describedby="label">
+             <!-- <div id="emailHelp" class="form-text">This is the text that will appear under the field</div>  -->
+            </div>
+     
+    
+      
+          </form>
+        </div>
+          <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+            <form>
+              <div class="mb-3">
+                <label for="label" class="form-label">This question should display:</label>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Select</option>
+                  <option value="1">True</option>
+                  <option value="2">False</option>
+               
+                </select>
+                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+              </div>
+              <div class="mb-3">
+                <label for="label" class="form-label">When the following question:</label>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Select</option>
+                  <option value="1">Quesion 1</option>
+                  <option value="2">Question 2</option>
+               
+                </select>
+                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+              </div>
+       
+              <div class="mb-3">
+                <label for="placeholder" class="form-label">Has the value:</label>
+                <input type="text" class="form-control" id="placeholder" aria-describedby="label">
+                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+              </div>
+          
+       
+      
+        
+            </form>
+
+          </div>
+   
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -168,7 +168,7 @@
               </div>
               <div class="mb-3">
                 <label for="label" class="form-label">When the following question:</label>
-                <select name="bob" [(ngModel)]="selectedRuleField" class="form-select" aria-label="Default select example">
+                <select name="fieldSelectorRead" [(ngModel)]="selectedRuleField" class="form-select" aria-label="Default select example">
                   <option selected>Select</option>
                   <option *ngFor="let eachField of fieldList()" [ngValue]="eachField">
                   {{eachField.name}}

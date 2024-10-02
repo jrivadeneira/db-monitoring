@@ -1,7 +1,7 @@
 <div class="schema-wrapper">
 <div class="schema-item">
 <h3>Form template details</h3>
-<div class="schema-details-container ">
+<div class="schema-details-container">
   <div class="schema-detail">
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label"> Template name:</label>
@@ -24,13 +24,15 @@
 <div class="schema-item">
 <h3>Form template</h3>
 <div class="schema-editor-container">
-  <div class="fields-editor">
-    <div class="field-name-entry">
-      <div class="field-label">
-        field name
-      </div>
-      <input type="text" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
+  <div class="field-name-entry">
+    <h5>Form</h5>
+    <div class="field-label">
+      field name
     </div>
+    <input type="text" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
+  </div>
+  <div class="fields-editor">
+  <h5>Form bulder</h5>
     <div cdkDropList [cdkDropListData]="fieldList()" class="field-types-container" (cdkDropListDropped)="drop($event)">
       <div cdkDrag [cdkDragData]="each" class="field-type" (keyup)="refreshFields()" *ngFor="let each of fieldList(); index as i">
         <div *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)">
@@ -45,9 +47,7 @@
     </div>
   </div>
   <div class="report-preview-container">
-    <div class="report-preview-label">
-      here's the preview!
-    </div>
+    <h5>Form preview</h5>
     <div class="preview-content">
       <app-report-editor [hideSaveButton]="true" [report]="reportPreview()"></app-report-editor>
     </div>

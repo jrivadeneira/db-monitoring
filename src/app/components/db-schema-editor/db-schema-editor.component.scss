@@ -1,36 +1,36 @@
 
 .fields-editor {
-  display: grid;
-  grid-auto-flow: row;
+  display: flex;
+  flex-direction: column;
 }
 
 .schema-editor-container {
-  display: grid;
-  grid-auto-flow: column;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
 }
 
 .field-name-entry {
-  display: grid;
-  grid-auto-flow: column;
+
 }
 
 .field-type {
-  display: grid;
+  display: flex;
   grid-template-columns: 40% 40% 20%;
 }
 
 .preview-item {
-  display: grid;
+  display: flex;
   grid-template-columns: 40% 40%;
 }
 
 .control-buttons {
-  display: grid;
+  display: flex;
   grid-auto-flow: column;
 }
 
 .up-down-buttons {
-  display: grid;
+  display: flex;
   grid-auto-flow: row;
 }
 

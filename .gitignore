@@ -8,6 +8,7 @@
 
 api/obj
 api/bin
+api/appsettings.json
 
 # Node
 /node_modules

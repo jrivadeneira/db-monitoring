@@ -53,6 +53,12 @@ export class ReportsTableComponent {
         const study = each.fields.find((eachField: ReportField) => {
           return eachField.name.toString().toLowerCase() === "study";
           })?.value;
+        const monitor = each.fields.find((eachField: ReportField) => {
+          return eachField.name.toString().toLowerCase() === "monitor";
+          })?.value;
+        const status = each.fields.find((eachField: ReportField) => {
+          return eachField.name.toString().toLowerCase() === "status";
+          })?.value;
         const site = each.fields.find((eachField: ReportField) => {
           return eachField.name.toString().toLowerCase() === "site";
           })?.value;
@@ -63,6 +69,8 @@ export class ReportsTableComponent {
           "Date": date,
           "Study": study,
           "Site": site,
+          "Monitor": monitor,
+          "Status": status,
           "" : each.tableOptions
         }
       });

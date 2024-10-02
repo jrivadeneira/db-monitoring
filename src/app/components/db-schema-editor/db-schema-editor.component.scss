@@ -8,6 +8,7 @@
   align-items: normal;
   align-content: normal;
   gap:20px;
+
   div{
 
     padding: 10px;
@@ -22,6 +23,7 @@
   flex-basis: auto;
   align-self: auto;
   order: 0;
+  background: #f5f5f5;
 }
 
 .fields-editor {
@@ -31,6 +33,7 @@
   flex-basis: auto;
   align-self: auto;
   order: 0;
+  background: #f5f5f5;
 }
 .report-preview-container{
   display: block;
@@ -39,6 +42,7 @@
   flex-basis: auto;
   align-self: auto;
   order: 0;
+  border: 1px solid #f5f5f5;
 }
 
 
@@ -55,10 +59,15 @@
 .up-down-buttons {
   display: flex;
   grid-auto-flow: row;
+
 }
 
 .schema-details-container {
   display: flex;
+  padding: 10px;
+  &.block{
+    background: #f5f5f5;
+  }
 
 }
 
@@ -85,7 +94,7 @@
 }
 .schema-item{
   margin-bottom: 20px;
-  background: #f3f3f3;
+
   padding: 20px 20px 10px 20px;
 }
 

@@ -1,7 +1,7 @@
 <div class="schema-wrapper">
   <div class="schema-item">
     <h3>Form template details</h3>
-    <div class="schema-details-container">
+    <div class="schema-details-container block">
       <div class="schema-detail">
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label"> Template name:</label>
@@ -22,15 +22,15 @@
     </div>
   </div>
   <div class="schema-item">
-    <h3>Form template</h3>
+    <h3>Form template builder</h3>
     <div class="schema-editor-container">
       <div class="field-name-entry">
-        <h5>Form</h5>
+        <h5>Components</h5>
         <label for="fieldName" class="form-label">Field name</label>
         <input type="text" class="form-control" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
       </div>
       <div class="fields-editor">
-        <h5>Form builder</h5>
+        <h5>Configure</h5>
         <div cdkDropList [cdkDropListData]="fieldList()" class="field-types-container" (cdkDropListDropped)="drop($event)">
           <div cdkDrag [cdkDragData]="each" class="field-type" (keyup)="refreshFields()" *ngFor="let each of fieldList(); index as i; let index = index" (mouseenter)="addClass(index)" (mouseleave)="removeClass(index)" [ngClass]="{'hovered':isHovered && index === Cindex}">
             <div class="control-util-bar">
@@ -49,18 +49,19 @@
             <label *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)" for="name" class="form-label">{{each.name}}</label>
             <input *ngIf="each.editingName" class="form-control" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
             <select class="form-select" [(ngModel)]="each.type" (change)="refreshFields()">
-              <option [ngValue]="'text'"> text </option>
-              <option [ngValue]="'date'"> date </option>
-              <option [ngValue]="'number'"> number </option>
-              <option [ngValue]="'checkbox'"> checkbox </option>
-              <option [ngValue]="'radiobutton'"> radio button </option>
-              <option [ngValue]="'dropdown'"> dropdown </option>
+              <option [ngValue]="'text'"> Text </option>
+              <option [ngValue]="'textarea'"> Textarea </option>
+              <option [ngValue]="'date'"> Date </option>
+              <option [ngValue]="'number'"> Number </option>
+              <option [ngValue]="'checkbox'"> Checkbox </option>
+              <option [ngValue]="'radiobutton'"> Radio button </option>
+              <option [ngValue]="'select'"> Select </option>
             </select>
           </div>
         </div>
       </div>
       <div class="report-preview-container">
-        <h5>Form preview</h5>
+        <h5>Preview</h5>
         <div class="preview-content">
           <app-report-editor [hideSaveButton]="true" [report]="reportPreview()"></app-report-editor>
         </div>
@@ -160,7 +161,6 @@
                   <tr>
                     <th colspan="4" scope="row">
                       <button type="button" class="btn btn-outline-primary">Add another</button></th>
-                
                   </tr>
                 </tbody>
               </table>

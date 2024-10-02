@@ -1,23 +1,46 @@
 
-.fields-editor {
-  display: flex;
-  flex-direction: column;
-}
 
 .schema-editor-container {
   display: flex;
-  justify-content: space-between;
-  padding: 20px 0;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: normal;
+  align-items: normal;
+  align-content: normal;
+  gap:20px;
+  div{
+
+    padding: 10px;
+  }
 }
 
 .field-name-entry {
-
+  display: block;
+  width: 240px;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
 }
 
-.field-type {
-  display: flex;
-  grid-template-columns: 40% 40% 20%;
+.fields-editor {
+  display: block;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
 }
+.report-preview-container{
+  display: block;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+
 
 .preview-item {
   display: flex;
@@ -65,3 +88,28 @@
   background: #f3f3f3;
   padding: 20px 20px 10px 20px;
 }
+
+
+.field-type {
+  .control-util-bar{
+
+    justify-content: space-between;
+  
+    position: absolute;
+    justify-content: flex-end;
+    right:0;
+    top:0;
+     display: none;
+    span{
+      padding: 0 10px;
+    }
+  }
+  position: relative;
+  &.hovered{
+    .control-util-bar{
+      display: flex;
+
+    }
+ 
+  }
+  }

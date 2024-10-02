@@ -1,4 +1,4 @@
-import { NgForOf, NgIf } from '@angular/common';
+import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,8 @@ import { take } from 'rxjs';
     NgIf,
     NgForOf,
     DragDropModule,
-    ReportEditorComponent
+    ReportEditorComponent,
+    CommonModule
   ],
   templateUrl: './db-schema-editor.component.html',
   styleUrl: './db-schema-editor.component.scss'
@@ -117,4 +118,15 @@ export class DbSchemaEditorComponent {
     schema.id = this.id;
     this.schemaService.save(schema);
   }
+
+  Cindex= 0;
+  isHovered = false;
+addClass(index:any){
+this.Cindex = index;
+this.isHovered = true;
+}
+removeClass(index:any){
+  this.Cindex = index;
+  this.isHovered = false;
+}
 }

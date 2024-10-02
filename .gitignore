@@ -9,6 +9,7 @@
 api/obj
 api/bin
 api/appsettings.json
+api/appsettings.Development.json
 
 # Node
 /node_modules

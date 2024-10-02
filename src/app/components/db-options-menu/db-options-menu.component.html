@@ -1,4 +1,20 @@
-<div class="menu-container">
+<div class="dropdown">
+  <a *ngIf="!!menuName()" class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    {{menuName()}} 
+  </a>
+  <!-- <a *ngIf="!menuName()"  class="btn btn-primary dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false">
+   
+  </a> -->
+  <button *ngIf="!menuName()" type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">More</button>
+  <ul class="dropdown-menu">
+    @for(eachItem of items(); track eachItem){
+    <li>
+      <a class="dropdown-item" (click)="itemSelected(eachItem)">{{eachItem.name}}</a>
+    </li>
+    }
+  </ul>
+</div>
+<!-- <div class="menu-container">
   <div *ngIf="!!menuName()" class="menu-title" (click)="showMenu($event)">
     <div class="btn btn-secondary dropdown-toggle">
       {{menuName()}}
@@ -19,4 +35,4 @@
     </div>
     }
   </div>
-</div>
+</div> -->

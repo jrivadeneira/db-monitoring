@@ -1,10 +1,19 @@
 .monitoring-container{
   display: flex;
   flex-direction: column;
-  margin: 24px;
+  margin: 40px 24px;
 }
 .upper-container{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 33px;
+  color: #000;
+
+/* 40 Heading 3 */
+font-family: Roboto;
+font-size: 40px;
+font-style: normal;
+font-weight: 700;
+line-height: 48px; /* 120% */
 }

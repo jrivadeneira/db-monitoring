@@ -29,14 +29,21 @@ export class ReportsTableComponent {
     return this.reportService.getReportsObservable().pipe(map((reports: Report[]) => {
       reports.forEach((each: Report) => {
         if(each.tableOptions) {
+          const editReport = new DbOption(
+            "Edit Report",
+            (info: Report) => {
+              this.editReport(info)
+            },
+            each);
           const createFromThisReport = new DbOption(
-            "Open report",
+            "Duplicate report",
             (info: Report) => {
               this.createFrom(info)
             },
             each);
             each.tableOptions = [] as DbOption[];
             each.tableOptions.push(createFromThisReport);
+            each.tableOptions.push(editReport);
         }
       });
       return reports.map((each:Report) => {
@@ -67,6 +74,11 @@ export class ReportsTableComponent {
     this.router.navigate(["report-editor"]);
   }
 
+  editReport(report: Report) {
+    console.log("Editing:", report)
+    this.reportService.setCurrentReport(report);
+    this.router.navigate(["report-editor"]);
+  }
   createFrom(report: Report) {
     const newReport: Report = Report.createFromExisting(report);
     this.reportService.setCurrentReport(newReport);

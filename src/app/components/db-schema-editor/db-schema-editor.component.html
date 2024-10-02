@@ -30,7 +30,7 @@
     <input type="text" class="form-control" [(ngModel)]="fieldName" (keyup.enter)="submitFieldName()"/>
   </div>
   <div class="fields-editor">
-  <h5>Form bulder</h5>
+  <h5>Form builder</h5>
     <div cdkDropList [cdkDropListData]="fieldList()" class="field-types-container" (cdkDropListDropped)="drop($event)">
       <div cdkDrag [cdkDragData]="each" class="field-type" (keyup)="refreshFields()" *ngFor="let each of fieldList(); index as i; let index = index" (mouseenter)="addClass(index)" (mouseleave)="removeClass(index)" [ngClass]="{'hovered':isHovered && index === Cindex}">
         <div class="control-util-bar">
@@ -42,7 +42,7 @@
               </span>
           <span class="material-symbols-outlined" (click)="deleteField(each)">
             delete
-            </span> 
+            </span>
 
         </div>
             <!-- <div *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)">
@@ -51,7 +51,7 @@
         <label *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)" for="name" class="form-label">{{each.name}}</label>
         <input *ngIf="each.editingName" class="form-control" type="text" [(ngModel)]="each.name" (keyup.enter)="hideNameEditor(each)"/>
         <input type="text" class="form-control"  [(ngModel)]="each.type"/>
-     
+
       </div>
     </div>
   </div>

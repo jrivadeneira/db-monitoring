@@ -58,7 +58,6 @@ export class DbTableComponent implements OnInit {
           dataList.push(each);
         }
       }
-      console.log(dataList);
       return dataList;
     }))
   });
@@ -66,12 +65,10 @@ export class DbTableComponent implements OnInit {
 
   public columnStyle = computed(()=>{
     let colStyle = '';
-    let lengthOfHeaders = this.headers().length;
     for(let i = 0; i < this.headers().length; i++) {
       colStyle += (this.tableColumnsWidth);
       colStyle += "% ";
     }
-    console.log("updating columnsStyle", colStyle)
     return colStyle;
   });
   private dataSubject: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
@@ -105,10 +102,7 @@ export class DbTableComponent implements OnInit {
     if(this.headers.length < 1) {
       if(data.length > 0) {
         const target = data[0];
-        console.log("updating headers")
-
         this.headers.update(()=>Object.keys(target));
-        console.log(this.headers());
       }
     }
   }

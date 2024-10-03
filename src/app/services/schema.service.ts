@@ -34,12 +34,10 @@ export class SchemaService {
   }
 
   setCurrentSchema(schema: Schema){
-    console.log("Setting schema");
     this.currentSchemaSubject.asObservable().pipe(take(1)).subscribe((currentSchema: Schema) => {
       if(!currentSchema.equals(schema)){
         this.currentSchemaSubject.next(schema);
       }
     });
-    console.log(schema);
   }
 }

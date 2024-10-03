@@ -54,7 +54,7 @@ export class ReportsTableComponent {
             each.tableOptions.push(printReport);
         }
       });
-      return reports.map((each:Report) => {
+      return reports.reverse().map((each:Report) => {
         const date = each.fields.find((eachField: ReportField) => {
           return eachField.name.toString().toLowerCase() === "date";
           })?.value;

@@ -31,7 +31,7 @@ export class SchemaTableComponent {
   get schemaObservable(): Observable<any[]> {
     return this.schemaService.schemaObservable.pipe(map((schemas: Schema[]) => {
       {
-        return schemas.map((each:Schema) => {
+        return schemas.reverse().map((each:Schema) => {
           return {
             "Schema Name": each.name,
             "Field Count": each.fields.length,

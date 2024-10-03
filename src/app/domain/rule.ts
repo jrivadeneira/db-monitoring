@@ -1,89 +1,184 @@
 export class RuleFactory{
-  greaterThan(input: any): Function{
+  public greaterThan(input: any): Function{
     return (x: any)=> x > input;
   }
 
-  lessThan(input: any): Function{
+  public lessThan(input: any): Function{
     return (x: number)=> x > input;
   }
 
-  equalTo(input: any): Function {
+  public equalTo(input: any): Function {
     return (x: any) => {
-      //console.log("EQUAL")
-      //console.log(x + " === " + input + " : " + (x === input));
       return x === input;
     }
   }
 
-  and(check1: Function, check2: Function): Function {
+  public and(check1: Function, check2: Function): Function {
     return (one: any, two: any) => {
-      //console.log("AND")
       const first = check1(one, two);
       const second = check2(two, one);
       return  first && second;
     }
   }
 
-  nand(check1: Function, check2: Function): Function{
+  public nand(check1: Function, check2: Function): Function{
     return (one: any, two: any) => {
-      //console.log("NAND")
       const first = check1(one, two);
       const second = check2(two, one);
       return  !(first && second);
     }
   }
 
-  or(check1: Function, check2: Function): Function{
+  public or(check1: Function, check2: Function): Function{
     return (one: any, two:any) => {
-      //console.log("OR")
       const first = check1(one,two);
       const second = check2(two,one);
       return (first || second);
     }
   }
 
-  nor(check1: Function, check2: Function): Function{
+  public nor(check1: Function, check2: Function): Function{
     return (one: any, two: any) => {
-      //console.log('NOR!')
       const first = check1(one, two);
       const second = check2(two, one);
-      //console.log(first + " Nor " + second)
       return !(first || second);
     }
   }
 }
 
 
-class Test {
-  constructor() {
-    const factory = new RuleFactory();
-    const isThree = factory.equalTo(3);
-    const isTwo = factory.equalTo(2);
-    const xor = (one: any, two: any) => factory.and(
-      factory.or(
-        one,
-        two,
-      ),
-      factory.nand(
-        one,
-        two,
-      )
-    );
-    const xor3 = xor(isThree, isThree);
-    const xor2 = xor(isTwo, isTwo);
-    const xor32 = factory.and(xor2,xor3);
-    console.log("result: ", xor32(4, 3));
-    console.log("result: ", xor32(3, 4));
-    console.log("result: ", xor32(3, 3));
-    console.log("result: ", xor32(2, 3));
-    console.log("result: ", xor32(3, 2));
-    console.log("result: ", xor32(1, 3));
-    console.log("result: ", xor32(3, 1));
-    console.log("result: ", xor32(2, 2));
-    console.log("result: ", xor32(2, 2));
-    console.log("result: ", xor32(2, 1));
-    console.log("result: ", xor32(1, 2));
+
+export class RuleBuilder {
+  constructor(
+    public ruleFunction: Function|undefined = undefined,
+  ) {}
+
+  input(key: string): RuleCondition {
+    return new RuleCondition(key, this);
+  }
+
+  build() {
+    if(this.ruleFunction===undefined){
+      return ()=>{};
+    } else {
+      return this.ruleFunction;
+    }
+  }
+
+  and(): RuleBuilder{
+    const newRuleBuilder = new RuleBuilder();
+    const oldFunction = this.ruleFunction;
+    const newFunction = (paramsObject: any) => {
+      if(oldFunction){
+        return oldFunction(paramsObject) && newRuleBuilder.build()(paramsObject);
+      } else {
+        return false;
+      }
+    }
+    this.ruleFunction = newFunction;
+    return newRuleBuilder;
+  }
+
+  or(): RuleBuilder{
+    const newRuleBuilder = new RuleBuilder();
+    const oldFunction = this.ruleFunction;
+    const newFunction = (paramsObject: any) => {
+      if(oldFunction){
+        return oldFunction(paramsObject) || newRuleBuilder.build()(paramsObject);
+      } else {
+        return false;
+      }
+    }
+    this.ruleFunction = newFunction;
+    return newRuleBuilder;
   }
 }
 
-const x = new Test();
+class RuleCondition{
+
+  private notFlag = false;
+  constructor(private key: string, private parent: RuleBuilder){}
+
+  public greaterThan(value: number): RuleBuilder{
+    const condition = (paramsObject: any) => {
+      const result = paramsObject[this.key] > value;
+      return result !== this.notFlag;
+    }
+    if(this.parent.ruleFunction === undefined){
+      this.parent.ruleFunction = condition;
+      return this.parent;
+    }
+    return new RuleBuilder(condition);
+  }
+
+  public lessThan(value: number): RuleBuilder{
+    const condition = (paramsObject: any) => {
+      const result = paramsObject[this.key] < value;
+      return result !== this.notFlag;
+    }
+    if(this.parent.ruleFunction === undefined){
+      this.parent.ruleFunction = condition;
+      return this.parent;
+    }
+    return new RuleBuilder(condition);
+  }
+
+  public equalTo(value: number|string): RuleBuilder{
+    const condition = (paramsObject: any) => {
+      const result = paramsObject[this.key] === value;
+      return result !== this.notFlag;
+    }
+    if(this.parent.ruleFunction === undefined){
+      this.parent.ruleFunction = condition;
+      return this.parent;
+    }
+    return new RuleBuilder(condition);
+  }
+
+  public not(): RuleCondition {
+    this.notFlag = !this.notFlag;
+    return this;
+  }
+}
+
+const pass = {
+  "name":"bob jr",
+  "country":"US",
+  "age":15
+};
+
+const fail = {
+  "name":"bob",
+  "country":"US",
+  "age":35
+};
+
+const Jarret = {
+  "name":"Jarret",
+  "country":"CA",
+  "age": 14
+};
+
+const Garret = {
+  "name":"Garret",
+  "country":"CA",
+  "age": 19
+};
+
+// Syntax area
+const builder = new RuleBuilder();
+// can they enter the bar?
+const ruleFunction = builder
+.input("age").not().lessThan(21)
+.or()
+.input("country").equalTo("CA")
+.and()
+.input("age").not().lessThan(17)
+.build();
+
+// const ruleFunction = builder.build();
+console.log(ruleFunction);
+console.log("Should fail:", ruleFunction(fail));
+console.log("Should pass:", ruleFunction(pass));
+console.log("Should fail:", ruleFunction(Jarret));
+console.log("Should pass:", ruleFunction(Garret));

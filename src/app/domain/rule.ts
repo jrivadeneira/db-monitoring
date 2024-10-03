@@ -91,13 +91,13 @@ class RuleCondition{
   }
 }
 
-const pass = {
+const fail = {
   "name":"bob jr",
   "country":"US",
   "age":15
 };
 
-const fail = {
+const pass = {
   "name":"bob",
   "country":"US",
   "age":35
@@ -123,7 +123,8 @@ builder
 .or()
 .input("country").equalTo("CA")
 .and()
-.input("age").not().lessThan(17);
+.input("age").not().lessThan(17)
+.build();
 
 const ruleFunction = builder.build();
 console.log(ruleFunction);

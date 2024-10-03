@@ -49,7 +49,7 @@ export class DbTableComponent implements OnInit {
     return filteredData;
   });
 
-  public dataListObservable = computed<Observable<any[]>>(()=>{
+  public dataListObservable = computed<Observable<any[]>>(() => {
     return this.dataObservable().pipe(map((rows: any[])=>{
       let dataList = [];
       for(let eachItem of rows) {

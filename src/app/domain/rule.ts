@@ -1,51 +1,63 @@
 export class RuleBuilder {
   constructor(
+    private parent: RuleBuilder|undefined = undefined,
     public ruleFunction: Function|undefined = undefined,
   ) {}
 
-  input(key: string): RuleCondition {
-    return new RuleCondition(key, this);
-  }
-
-  build() {
-    if(this.ruleFunction===undefined){
-      return ()=>{};
-    } else {
-      return this.ruleFunction;
+    public input(key: string): RuleCondition {
+      return new RuleCondition(key, this);
     }
-  }
 
-  and(): RuleBuilder{
-    const newRuleBuilder = new RuleBuilder();
-    const oldFunction = this.ruleFunction;
-    const newFunction = (paramsObject: any) => {
-      if(oldFunction){
-        return oldFunction(paramsObject) && newRuleBuilder.build()(paramsObject);
+    public build(): Function {
+      if(this.parent){
+        return this.parent.build();
+      }
+      if(this.ruleFunction===undefined){
+        return ()=>{};
       } else {
-        return false;
+        return this.ruleFunction;
       }
     }
-    this.ruleFunction = newFunction;
-    return newRuleBuilder;
-  }
 
-  or(): RuleBuilder{
-    const newRuleBuilder = new RuleBuilder();
-    const oldFunction = this.ruleFunction;
-    const newFunction = (paramsObject: any) => {
-      if(oldFunction){
-        return oldFunction(paramsObject) || newRuleBuilder.build()(paramsObject);
+    private ibuild(): Function{
+      if(this.ruleFunction===undefined){
+        return ()=>{};
       } else {
-        return false;
+        return this.ruleFunction;
       }
     }
-    this.ruleFunction = newFunction;
-    return newRuleBuilder;
-  }
+
+    public and(): RuleBuilder {
+      const newRuleBuilder = new RuleBuilder(this);
+      const oldFunction = this.ruleFunction;
+      const newFunction = (paramsObject: any) => {
+        if(oldFunction){
+          // newRuleBuilder.parent=undefined;
+          return oldFunction(paramsObject) && newRuleBuilder.ibuild()(paramsObject);
+        } else {
+          return false;
+        }
+      }
+      this.ruleFunction = newFunction;
+      return newRuleBuilder;
+    }
+
+    public or(): RuleBuilder {
+      const newRuleBuilder = new RuleBuilder(this);
+      const oldFunction = this.ruleFunction;
+      const newFunction = (paramsObject: any) => {
+        if(oldFunction){
+          return oldFunction(paramsObject) || newRuleBuilder.ibuild()(paramsObject);
+        } else {
+          return false;
+        }
+      }
+      this.ruleFunction = newFunction;
+      return newRuleBuilder;
+    }
 }
 
 class RuleCondition{
-
   private notFlag = false;
   constructor(private key: string, private parent: RuleBuilder){}
 
@@ -58,7 +70,7 @@ class RuleCondition{
       this.parent.ruleFunction = condition;
       return this.parent;
     }
-    return new RuleBuilder(condition);
+    return new RuleBuilder(this.parent, condition);
   }
 
   public lessThan(value: number): RuleBuilder{
@@ -70,7 +82,7 @@ class RuleCondition{
       this.parent.ruleFunction = condition;
       return this.parent;
     }
-    return new RuleBuilder(condition);
+    return new RuleBuilder(this.parent, condition);
   }
 
   public equalTo(value: number|string): RuleBuilder{
@@ -82,7 +94,7 @@ class RuleCondition{
       this.parent.ruleFunction = condition;
       return this.parent;
     }
-    return new RuleBuilder(condition);
+    return new RuleBuilder(this.parent, condition);
   }
 
   public not(): RuleCondition {
@@ -118,15 +130,13 @@ const Garret = {
 // Syntax area
 const builder = new RuleBuilder();
 // can they enter the bar?
-builder
+const ruleFunction = builder
 .input("age").not().lessThan(21)
 .or()
 .input("country").equalTo("CA")
 .and()
-.input("age").not().lessThan(17)
-.build();
+.input("age").not().lessThan(17).build();
 
-const ruleFunction = builder.build();
 console.log(ruleFunction);
 console.log("Should fail:", ruleFunction(fail));
 console.log("Should pass:", ruleFunction(pass));

@@ -1,53 +1,3 @@
-export class RuleFactory{
-  public greaterThan(input: any): Function{
-    return (x: any)=> x > input;
-  }
-
-  public lessThan(input: any): Function{
-    return (x: number)=> x > input;
-  }
-
-  public equalTo(input: any): Function {
-    return (x: any) => {
-      return x === input;
-    }
-  }
-
-  public and(check1: Function, check2: Function): Function {
-    return (one: any, two: any) => {
-      const first = check1(one, two);
-      const second = check2(two, one);
-      return  first && second;
-    }
-  }
-
-  public nand(check1: Function, check2: Function): Function{
-    return (one: any, two: any) => {
-      const first = check1(one, two);
-      const second = check2(two, one);
-      return  !(first && second);
-    }
-  }
-
-  public or(check1: Function, check2: Function): Function{
-    return (one: any, two:any) => {
-      const first = check1(one,two);
-      const second = check2(two,one);
-      return (first || second);
-    }
-  }
-
-  public nor(check1: Function, check2: Function): Function{
-    return (one: any, two: any) => {
-      const first = check1(one, two);
-      const second = check2(two, one);
-      return !(first || second);
-    }
-  }
-}
-
-
-
 export class RuleBuilder {
   constructor(
     public ruleFunction: Function|undefined = undefined,
@@ -168,15 +118,14 @@ const Garret = {
 // Syntax area
 const builder = new RuleBuilder();
 // can they enter the bar?
-const ruleFunction = builder
+builder
 .input("age").not().lessThan(21)
 .or()
 .input("country").equalTo("CA")
 .and()
-.input("age").not().lessThan(17)
-.build();
+.input("age").not().lessThan(17);
 
-// const ruleFunction = builder.build();
+const ruleFunction = builder.build();
 console.log(ruleFunction);
 console.log("Should fail:", ruleFunction(fail));
 console.log("Should pass:", ruleFunction(pass));

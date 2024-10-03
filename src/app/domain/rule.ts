@@ -12,15 +12,15 @@ export class RuleBuilder {
       if(this.parent){
         return this.parent.build();
       }
-      if(this.ruleFunction===undefined){
-        return ()=>{};
+      if(this.ruleFunction === undefined){
+        return () => {};
       } else {
         return this.ruleFunction;
       }
     }
 
-    private ibuild(): Function{
-      if(this.ruleFunction===undefined){
+    private ibuild(): Function {
+      if(this.ruleFunction === undefined){
         return ()=>{};
       } else {
         return this.ruleFunction;
@@ -57,7 +57,8 @@ export class RuleBuilder {
     }
 }
 
-class RuleCondition{
+export class RuleCondition {
+
   private notFlag = false;
   constructor(private key: string, private parent: RuleBuilder){}
 
@@ -126,19 +127,26 @@ const Garret = {
   "country":"CA",
   "age": 19
 };
-
+const german = {
+  "name":"Hans",
+  "country":"DE",
+  "age": 14
+}
 // Syntax area
 const builder = new RuleBuilder();
 // can they enter the bar?
-const ruleFunction = builder
+builder
 .input("age").not().lessThan(21)
 .or()
-.input("country").equalTo("CA")
-.and()
-.input("age").not().lessThan(17).build();
+  .input("country").equalTo("CA")
+  .and()
+  .input("age").not().lessThan(17);
+builder.or().input("country").equalTo("DE");
 
+const ruleFunction = builder.build();
 console.log(ruleFunction);
 console.log("Should fail:", ruleFunction(fail));
 console.log("Should pass:", ruleFunction(pass));
 console.log("Should fail:", ruleFunction(Jarret));
 console.log("Should pass:", ruleFunction(Garret));
+console.log("Should pass:", ruleFunction(german));

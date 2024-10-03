@@ -61,7 +61,9 @@ public class ReportController : ControllerBase {
       String value = eachField.value;
       String newsql = sql + "reportId=" + reportId + ", name='" + name + "', type='" + type + "', value='" + value + "'";
       newsql += " WHERE id=" + id + ";";
-      dapper.executeSql(newsql);
+      Console.WriteLine("Executing sql: " + newsql);
+      bool result = dapper.executeSql(newsql);
+      Console.WriteLine("Result: " + result);
     }
   }
 
@@ -71,7 +73,7 @@ public class ReportController : ControllerBase {
     int id = report.id;
     String name = report.name;
     bool singleton = report.singleton;
-    if(id == 0) {
+    if (id == 0) {
       // TODO make into a transaction so that it's a single move
       id = createReport(name, singleton);
       createReportFields(report.fields, id);

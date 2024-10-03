@@ -7,10 +7,11 @@ export class ReportField{
     public type: string,
     public value: string = "",
     public reportId: number = 0,
+    public id: number = 0,
   ){}
 
   public static fromData(data: any):ReportField{
-    return new ReportField(data.name,data.type,data.value,data.reportId);
+    return new ReportField(data.name,data.type,data.value,data.reportId, data.id);
   }
 }
 

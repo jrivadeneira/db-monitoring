@@ -22,17 +22,19 @@ export class ReportService {
       const newReports = reports.map((each:Report) => {
         return Report.clone(each);
       });
-      console.log('reports: ', newReports);
       this.reportsSubject.next(newReports);
     });
   }
 
   saveReport(report: Report){
-    console.log("report: ", report);
     return ajax.post<Report>("http://localhost:5000/report",report)
     .subscribe((each: any) => {
       const responseReport = each.response;
-      this.updateReports(responseReport);
+      if (!report.id) {
+        this.updateReports(responseReport);
+      } else {
+        this.getReports();
+      }
     });
   }
 
@@ -43,10 +45,8 @@ export class ReportService {
   setCurrentSchema(schema: Schema){
     const report = Report.createFromSchema(schema);
     this.reportSubject.asObservable().pipe(take(1)).subscribe(() => {
-        console.log("Updated Schema: ", schema)
         this.reportSubject.next(report);
     });
-    console.log(schema);
   }
 
   get currentReportObservable(): Observable<Report>{

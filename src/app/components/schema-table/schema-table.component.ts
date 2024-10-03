@@ -37,7 +37,7 @@ export class SchemaTableComponent {
             "Field Count": each.fields.length,
             "": [
               new DbOption("Edit",()=>{this.editButton(each)}),
-              new DbOption("Create From",()=>{this.createFrom(each)}),
+              new DbOption("Create Form",()=>{this.createFrom(each)}),
             ]
           }
         })
@@ -57,7 +57,7 @@ export class SchemaTableComponent {
 
   editButton(schema: Schema) {
     this.schemaService.setCurrentSchema(Schema.fromData(schema));
-    this.router.navigate(["schema-editor"]);
+    this.router.navigate(["schema-editor/" + schema.id]);
   }
 
   createFrom(schema: Schema) {

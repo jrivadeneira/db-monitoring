@@ -35,15 +35,23 @@ export class ReportsTableComponent {
               this.editReport(info)
             },
             each);
+            
           const createFromThisReport = new DbOption(
             "Duplicate report",
             (info: Report) => {
               this.createFrom(info)
             },
             each);
+            const printReport = new DbOption(
+              "Print to PDF",
+              (info: Report) => {
+                this.printReport(info)
+              },
+              each);
             each.tableOptions = [] as DbOption[];
             each.tableOptions.push(createFromThisReport);
             each.tableOptions.push(editReport);
+            each.tableOptions.push(printReport);
         }
       });
       return reports.map((each:Report) => {
@@ -79,18 +87,22 @@ export class ReportsTableComponent {
 
   createNewReport(schema: Schema) {
     this.reportService.setCurrentSchema(schema);
-    this.router.navigate(["report-editor"]);
+    this.router.navigate(["report-editor/" + schema.id]);
   }
 
   editReport(report: Report) {
     console.log("Editing:", report)
     this.reportService.setCurrentReport(report);
-    this.router.navigate(["report-editor"]);
+    this.router.navigate(["report-editor/" + report.id]);
   }
-
+  printReport(report: Report) {
+    console.log("Printing PDF:", report)
+    // this.reportService.setCurrentReport(report);
+    // this.router.navigate(["report-editor/" + report.id]);
+  }
   createFrom(report: Report) {
     const newReport: Report = Report.createFromExisting(report);
     this.reportService.setCurrentReport(newReport);
-    this.router.navigate(["report-editor"]);
+    this.router.navigate(["report-editor/" + report.id]);
   }
 }

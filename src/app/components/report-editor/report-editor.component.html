@@ -4,7 +4,7 @@
     <div class="preview-item" *ngFor="let each of reportData?.fields">
        <!-- textbox, number and date -->
       <label *ngIf="each.type !== 'checkbox'" for="{{each.name}}" class="form-label">{{each.name}}</label>
-      <input *ngIf="each.type === 'text' || each.type === 'number' || each.type === 'date'" type="{{each.type}}"
+      <input *ngIf="each.type === 'text' || each.type === 'number' || each.type === 'Date'" type="{{each.type}}"
         class="form-control" [(ngModel)]="each.value">
       <!-- Checkbox -->
       <div class="form-check" *ngIf="each.type === 'checkbox'">

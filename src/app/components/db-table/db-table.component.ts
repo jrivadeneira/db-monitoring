@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, signal, computed } from '@angular/core';
+import { Component, OnInit, Input, signal, computed, input } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from "rxjs/operators";
@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './db-table.component.scss'
 })
 export class DbTableComponent implements OnInit {
-  @Input() headers: string[] = [];
+  headers = signal<string[]>([]);
   @Input() data!: Observable<any[]>;
   @Input() displayHeaders: string[] = [];
   private sortIndex = signal(-1);
@@ -35,7 +35,7 @@ export class DbTableComponent implements OnInit {
         const fil = this.asStringFromHeaders(eachLine).includes(searchTerm);
         return fil;
       });
-    const target = this.headers[sortIndex];
+    const target = this.headers()[sortIndex];
     return filtered.sort((a:any, b:any)=>{
       if(a[target] === b[target]){
         return 0;
@@ -53,17 +53,27 @@ export class DbTableComponent implements OnInit {
     return this.dataObservable().pipe(map((rows: any[])=>{
       let dataList = [];
       for(let eachItem of rows) {
-        for(let eachHeader of this.headers) {
+        for(let eachHeader of this.headers()) {
           const each = eachItem[eachHeader];
           dataList.push(each);
         }
       }
+      console.log(dataList);
       return dataList;
     }))
   });
 
 
-  public columnStyle: string = '';
+  public columnStyle = computed(()=>{
+    let colStyle = '';
+    let lengthOfHeaders = this.headers().length;
+    for(let i = 0; i < this.headers().length; i++) {
+      colStyle += (this.tableColumnsWidth);
+      colStyle += "% ";
+    }
+    console.log("updating columnsStyle", colStyle)
+    return colStyle;
+  });
   private dataSubject: BehaviorSubject<any[]> = new BehaviorSubject([] as any[]);
 
   constructor() {}
@@ -71,39 +81,41 @@ export class DbTableComponent implements OnInit {
   ngOnInit(): void {
     this.data.subscribe((data: any[]) => {
       this.extractHeaders(data);
-      this.setupColumnStyle();
+      // this.setupColumnStyle();
       this.dataSubject.next(data);
     });
   }
 
   private asStringFromHeaders(obj: any){
     let ret = "";
-    for(let eachHeader of this.headers){
+    for(let eachHeader of this.headers()){
       ret += obj[eachHeader];
     }
     return ret;
   }
 
-  private setupColumnStyle() {
-    for(let i = 0; i < this.headers.length; i++) {
-      this.columnStyle += (this.tableColumnsWidth);
-      this.columnStyle += "% ";
-    }
-  }
+  // private setupColumnStyle() {
+    // for(let i = 0; i < this.headers.length; i++) {
+      // this.columnStyle += (this.tableColumnsWidth);
+      // this.columnStyle += "% ";
+    // }
+  // }
 
   private extractHeaders(data:any[]) {
     if(this.headers.length < 1) {
       if(data.length > 0) {
         const target = data[0];
-        this.headers = Object.keys(target);
+        console.log("updating headers")
+
+        this.headers.update(()=>Object.keys(target));
+        console.log(this.headers());
       }
     }
   }
 
-
   // This function is going to get the number of columns in the table by 100%/number of headers
   get tableColumnsWidth(): number {
-    return (100 / this.headers.length);
+    return (100 / this.headers().length);
   }
 
   public sortBy(colIndex: number) {

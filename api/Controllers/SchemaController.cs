@@ -43,6 +43,14 @@ public class SchemaController : ControllerBase {
     }
   }
 
+  private void createSchemaField(SchemaField field, int schemaId){
+    String sql = "INSERT INTO schema_fields OUTPUT INSERTED.* VALUES ";
+      String newsql = sql + "(" + schemaId + ", '" + field.name + "', '" + field.type + "');";
+      field.schemaId = schemaId;
+      SchemaField inserted = dapper.getDataSingle<SchemaField>(newsql);
+      field.id = inserted.id;
+  }
+
   private void updateSchema(Schema schema){
     int id = schema.id;
     String name = schema.name;
@@ -55,6 +63,9 @@ public class SchemaController : ControllerBase {
     String sql = "UPDATE schema_fields SET ";
     foreach (SchemaField eachField in fields) {
       int id = eachField.id;
+      if(id==0){
+        createSchemaField(eachField, eachField.schemaId);
+      }
       int schemaId = eachField.schemaId;
       String name = eachField.name;
       String type = eachField.type;

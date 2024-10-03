@@ -24,13 +24,8 @@ export class SchemaService {
   }
 
   save(schema: Schema) {
-    return ajax.post<Schema>("http://localhost:5000/schema", schema).pipe(take(1)).subscribe((each: any) => {
-      const responseSchema = each.response;
-      this.setCurrentSchema(responseSchema);
-      this.schemaSubject.asObservable().pipe(take(1)).subscribe((schemas: Schema[]) => {
-        schemas.push(responseSchema);
-        this.schemaSubject.next(schemas);
-      });
+    return ajax.post<Schema>("http://localhost:5000/schema", schema).pipe(take(1)).subscribe(() => {
+      this.getLatest();
     });
   }
 

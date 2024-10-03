@@ -55,7 +55,7 @@ export class DbSchemaEditorComponent {
 
   submitFieldName() {
     this.fieldList.update((values:SchemaField[]) => {
-      values.push(new SchemaField(this.fieldName(), "text"));
+      values.push(new SchemaField(this.fieldName(), "text", false, 0, this.id));
       return values;
     });
     this.fieldName.set("");
@@ -129,7 +129,7 @@ export class DbSchemaEditorComponent {
     this.Cindex = index;
     this.isHovered = false;
   }
-  
+
   addRow() {
     this.rows.push({ label: '', value: '' });
   }
@@ -137,7 +137,8 @@ export class DbSchemaEditorComponent {
   deleteRow(index: number) {
     this.rows.splice(index, 1);
   }
- dropOptions(event: CdkDragDrop<{ label: string, value: string }[]>) {
+
+  dropOptions(event: CdkDragDrop<{ label: string, value: string }[]>) {
     moveItemInArray(this.rows, event.previousIndex, event.currentIndex);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, signal, computed, input } from '@angular/core';
+import { Component, OnInit, Input, signal, computed } from '@angular/core';
 import { NgForOf, NgStyle, AsyncPipe } from "@angular/common";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from "rxjs/operators";
@@ -32,7 +32,7 @@ export class DbTableComponent implements OnInit {
     const reverseSort = this.reverseSort();
     const filteredData =  this.dataSubject.asObservable().pipe(map((each:any) => {
       const filtered = each.filter((eachLine:any) => {
-        const fil = this.asStringFromHeaders(eachLine).includes(searchTerm);
+        const fil = this.asStringFromHeaders(eachLine).toLowerCase().includes(searchTerm);
         return fil;
       });
     const target = this.headers()[sortIndex];

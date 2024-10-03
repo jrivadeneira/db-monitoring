@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import {ReportEditorComponent} from '../report-editor/report-editor.component';
-import {Report} from '../../domain/report';
-import {Schema} from '../../domain/schema';
-import {ReportService} from '../../services/report.service';
-import {take} from 'rxjs';
+import { ReportEditorComponent } from '../report-editor/report-editor.component';
+import { Report } from '../../domain/report';
+import { Schema } from '../../domain/schema';
+import { ReportService } from '../../services/report.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-reports-editor-page',

@@ -2,10 +2,10 @@ import { Component, signal } from '@angular/core';
 import { SchemaService } from '../../services/schema.service';
 import { Schema } from '../../domain/schema';
 import { NgForOf, NgIf } from '@angular/common';
-import {Router} from '@angular/router';
-import {DbTableComponent} from '../db-table/db-table.component';
-import {map, Observable} from 'rxjs';
-import {DbOption} from '../db-table/DbOption';
+import { Router } from '@angular/router';
+import { DbTableComponent } from '../db-table/db-table.component';
+import { map, Observable } from 'rxjs';
+import { DbOption } from '../db-table/DbOption';
 
 @Component({
   selector: 'app-schema-table',

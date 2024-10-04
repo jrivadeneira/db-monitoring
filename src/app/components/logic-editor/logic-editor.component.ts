@@ -14,9 +14,75 @@ class RuleData{
       public and:RuleData|undefined = undefined,
       public or:RuleData|undefined = undefined,
   ){}
-    clone(): RuleData{
-      return new RuleData(this.property,this.not,this.condition,this.target,this.andChecked,false, this.and ? this.and.clone() : undefined,undefined);
+    private static extractFromRegion(str:String){
+      const items = str.split("\x01");
+      const property = items[0];
+      const not = +items[1]?true:false;
+      const condition = items[2];
+      const target = items[3];
+      const andChecked = +items[4] ? true : false;
+      const orChecked = +items[5] ? true : false;
+      const extracted = new RuleData(property,not,condition,target,andChecked,orChecked)
+      return extracted;
     }
+
+    private static buildRuleTreeFromArray(ruleArray: RuleData[], currentRule: RuleData|undefined){
+      if(!currentRule){
+        return undefined;
+      }
+      const hasAnd = currentRule.andChecked;
+      const hasOr = currentRule.orChecked;
+      if (hasAnd) {
+        currentRule.and = ruleArray.pop();
+        this.buildRuleTreeFromArray(ruleArray, currentRule.and)
+      }
+      if (hasOr) {
+        currentRule.or = ruleArray.pop();
+        this.buildRuleTreeFromArray(ruleArray, currentRule.or);
+      }
+    }
+
+    static fromString(str: string){
+      console.log("total length:", str.length);
+      const regions = str.split("\x02").filter((each:string) => {
+        return each.length > 0;
+      });
+      console.log("Rule regions:", regions.length);
+      const data: RuleData[] = regions.map((each:string) => {
+        return this.extractFromRegion(each);
+      }).reverse();
+      console.log("Rules extracted:", data.length);
+      console.log(data);
+      const root = data.pop();
+      this.buildRuleTreeFromArray(data, root);
+      console.log("tree", root);
+      return root;
+    }
+
+    clone(parent:boolean = true): RuleData{
+      return new RuleData(
+        this.property,
+        this.not,
+        this.condition,
+        this.target,
+        this.andChecked,
+        parent ? false : this.orChecked,
+        this.and ? this.and.clone(false) : undefined,
+        this.or? this.or.clone(false): undefined
+      );
+    }
+    toString(): string{
+      const ret = this.property + "\x01" +
+        (this.not ? 1 : 0) + "\x01" +
+        this.condition + "\x01" +
+        this.target + "\x01" +
+        (this.andChecked ? 1 : 0 )+ "\x01" +
+        (this.orChecked ? 1 : 0) + "\x02" +
+        (this.andChecked ? this.and?.toString() : "") +
+        (this.orChecked ? this.or?.toString() : "") + "\x02";
+      return ret;
+    }
+
 }
 
 
@@ -117,15 +183,18 @@ export class LogicEditorComponent {
   test() {
     console.log("Testing...");
     let currentRule: RuleData|undefined = this.rule();
-    console.log("Rule: ", currentRule);
-    const originalBuilder = new RuleBuilder();
-    const newRule = this.buildRuleTree(currentRule, originalBuilder);
-    console.log("test pass : ", newRule(this.pass));
-    console.log("test fail: ", newRule(this.fail));
-    console.log("test canada pass: ", newRule(this.Garret));
-    console.log("test canada fail: ", newRule(this.Jarret));
-    console.log("test german pass: ", newRule(this.german));
-    console.log("test german fail: ", newRule(this.germanfail));
+    const test = RuleData.fromString(currentRule.toString());
+    if(test)
+    this.rule.update( ()=> test);
+    // console.log("Rule: ", currentRule.toString().length);
+    // const originalBuilder = new RuleBuilder();
+    // const newRule = this.buildRuleTree(currentRule, originalBuilder);
+    // console.log("test pass : ", newRule(this.pass));
+    // console.log("test fail: ", newRule(this.fail));
+    // console.log("test canada pass: ", newRule(this.Garret));
+    // console.log("test canada fail: ", newRule(this.Jarret));
+    // console.log("test german pass: ", newRule(this.german));
+    // console.log("test german fail: ", newRule(this.germanfail));
   }
 
   get subRule(): RuleData{

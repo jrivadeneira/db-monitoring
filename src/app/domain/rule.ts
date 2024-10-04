@@ -62,7 +62,7 @@ export class RuleCondition {
   private notFlag = false;
   constructor(private key: string, private parent: RuleBuilder){}
 
-  public greaterThan(value: number): RuleBuilder{
+  public greaterThan(value: number|string): RuleBuilder{
     const condition = (paramsObject: any) => {
       const result = paramsObject[this.key] > value;
       return result !== this.notFlag;
@@ -74,7 +74,7 @@ export class RuleCondition {
     return new RuleBuilder(this.parent, condition);
   }
 
-  public lessThan(value: number): RuleBuilder{
+  public lessThan(value: number|string): RuleBuilder{
     const condition = (paramsObject: any) => {
       const result = paramsObject[this.key] < value;
       return result !== this.notFlag;

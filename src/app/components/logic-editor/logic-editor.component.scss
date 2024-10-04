@@ -1,0 +1,19 @@
+.logical-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.logic-operators{
+  display: flex;
+  flex-direction: column;
+}
+
+.logic-operator{
+  display: flex;
+  flex-direction: row;
+}
+
+.and-rule{
+  padding-left: 24px;
+}

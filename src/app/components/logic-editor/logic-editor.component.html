@@ -1,0 +1,30 @@
+<div class="logical-row">
+  <label>property</label>
+  <input [(ngModel)]="rule().property" type="text"/>
+    <div class="condition">
+      <label>Not</label>
+      <input [(ngModel)]="rule().not" type="checkbox"/>
+    </div>
+  <div class="conditions-container">
+    <select class="condition-select" [(ngModel)]="rule().condition">
+      <option value="equal_to">Equal To</option>
+      <option value="greater_than">Greater Than</option>
+      <option value="less_than">Less Than</option>
+    </select>
+  </div>
+  <label>value</label>
+  <input [(ngModel)]="rule().target" type="text"/>
+  <div class="logic-operators">
+    <span class="logic-operator"><input type="checkbox" [(ngModel)]="rule().andChecked"/> and </span>
+    <span class="logic-operator"><input type="checkbox" [(ngModel)]="rule().orChecked"/> or </span>
+  </div>
+  <button (click)="test()">test</button>
+</div>
+<div class="sub-rule" *ngIf="rule().andChecked" [ngClass]="{
+            'and-rule': rule().andChecked
+  }">
+  <app-logic-editor [(rule)]="subRule"> </app-logic-editor>
+</div>
+<div class="sub-rule" *ngIf="rule().orChecked">
+  <app-logic-editor [(rule)]="sideRule"> </app-logic-editor>
+</div>

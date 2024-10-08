@@ -7,6 +7,7 @@ import { Schema, SchemaField } from '../../domain/schema';
 import { ReportEditorComponent } from '../report-editor/report-editor.component';
 import { Report } from '../../domain/report';
 import {DbTaglistComponent} from '../db-taglist/db-taglist.component';
+import { ReportFieldEditorModalComponent } from '../report-field-editor-modal/report-field-editor-modal.component';
 
 @Component({
   selector: 'db-schema-editor',
@@ -19,6 +20,7 @@ import {DbTaglistComponent} from '../db-taglist/db-taglist.component';
     ReportEditorComponent,
     CommonModule,
     DbTaglistComponent,
+    ReportFieldEditorModalComponent,
   ],
   templateUrl: './db-schema-editor.component.html',
   styleUrl: './db-schema-editor.component.scss'

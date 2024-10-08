@@ -1,11 +1,18 @@
 import { DbOption } from "../components/db-table/DbOption";
 import { Schema, SchemaField } from "./schema";
 
+export class DbSelect{
+  constructor(
+    public selected: string,
+    public options: string[],
+  ){}
+}
+
 export class ReportField{
   constructor(
     public name: string,
     public type: string,
-    public value: string = "",
+    public value: string | DbSelect = "",
     public reportId: number = 0,
     public id: number = 0,
   ){}
@@ -29,16 +36,24 @@ export class Report{
 
   static preview(fields: SchemaField[]): Report {
     return new Report(0, "", "", "", "", fields.map((each) => {
-      return new ReportField(each.name, each.type)
+      const select: DbSelect = new DbSelect(each.subFields[1],each.subFields);
+      if(each.subFields.length > 0){
+        return new ReportField(each.name, each.type, select)
+      }
+      return new ReportField(each.name, each.type);
     }));
   }
 
   static createEmpty(){
-    return new Report(0, "", "", "", "", [])
+    return new Report(0, "", "", "", "", []);
   }
 
   static createFromSchema(schema: Schema):Report{
     return new Report(0, schema.name, "", "", "" + schema.id, schema.fields.map((each) => {
+      const select: DbSelect = new DbSelect(each.subFields[1],each.subFields);
+      if (each.subFields.length > 0) {
+        return new ReportField(each.name, each.type, select)
+      }
       return new ReportField(each.name, each.type);
     }));
   }
@@ -52,6 +67,7 @@ export class Report{
   static clone(report: Report): Report {
     return new Report(report.id, report.name, report.studyId, report.siteId, report.schemaId, report.fields);
   }
+
   static createFromExisting(report: Report): Report {
     return new Report(0, report.name, report.studyId, report.siteId, report.schemaId, report.fields);
   }

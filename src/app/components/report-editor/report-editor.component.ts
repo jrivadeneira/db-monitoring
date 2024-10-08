@@ -1,6 +1,6 @@
 import { CommonModule, Location, NgForOf, NgIf } from '@angular/common';
 import { Component, input, model } from '@angular/core';
-import { Report } from '../../domain/report';
+import { DbSelect, Report } from '../../domain/report';
 import { ReportService } from '../../services/report.service';
 import { FormsModule } from '@angular/forms';
 
@@ -38,5 +38,19 @@ export class ReportEditorComponent {
     } else {
       return this.sampleReport();
     }
+  }
+
+  asSelect(select: DbSelect|string):DbSelect{
+    if(typeof select === 'string'){
+      return new DbSelect("",[]);
+    }
+    return select;
+  }
+
+  getOptions(select: DbSelect|string): string[] {
+    if(typeof select === 'string'){
+      return [];
+    }
+    return select.options;
   }
 }

@@ -6,6 +6,7 @@ import { SchemaService } from '../../services/schema.service';
 import { Schema, SchemaField } from '../../domain/schema';
 import { ReportEditorComponent } from '../report-editor/report-editor.component';
 import { Report } from '../../domain/report';
+import {DbTaglistComponent} from '../db-taglist/db-taglist.component';
 
 @Component({
   selector: 'db-schema-editor',
@@ -17,6 +18,7 @@ import { Report } from '../../domain/report';
     DragDropModule,
     ReportEditorComponent,
     CommonModule,
+    DbTaglistComponent,
   ],
   templateUrl: './db-schema-editor.component.html',
   styleUrl: './db-schema-editor.component.scss'

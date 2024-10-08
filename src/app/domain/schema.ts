@@ -5,6 +5,7 @@ export class SchemaField{
     public editingName: boolean = false,
       public id: number = 0,
       public schemaId: number = 0,
+      public subFields: string[] = [],
   ){}
     public static createEmpty(): SchemaField{
       return new SchemaField("", "", false);

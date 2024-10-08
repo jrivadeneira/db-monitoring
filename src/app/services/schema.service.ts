@@ -20,10 +20,12 @@ export class SchemaService {
   getLatest(){
     ajax.getJSON<Schema[]>("http://localhost:5000/schema").pipe(take(1)).subscribe((schemas: Schema[]) => {
       this.schemaSubject.next(schemas);
+      // schema might need some modification here to extract the special select object.
     });;
   }
 
   save(schema: Schema) {
+    // might need to modify schema now.
     return ajax.post<Schema>("http://localhost:5000/schema", schema).pipe(take(1)).subscribe(() => {
       this.getLatest();
     });

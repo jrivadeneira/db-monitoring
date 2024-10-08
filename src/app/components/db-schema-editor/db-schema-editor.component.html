@@ -43,7 +43,6 @@
               <span class="material-symbols-outlined" (click)="deleteField(each)">
                 delete
               </span>
-
             </div>
 
             <label *ngIf="!each.editingName" class="field-name" (dblclick)="showNameEditor(each)" for="name" class="form-label">{{each.name}}</label>
@@ -57,6 +56,9 @@
               <option [ngValue]="'radiobutton'"> Radio button </option>
               <option [ngValue]="'select'"> Select </option>
             </select>
+            <ul class="sub-items" *ngIf="each.type === 'radiobutton' || each.type === 'select'">
+              <db-taglist [name]="'Options'" [(items)]="each.subFields"> </db-taglist>
+            </ul>
           </div>
         </div>
       </div>

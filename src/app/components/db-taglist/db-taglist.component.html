@@ -1,0 +1,12 @@
+<div class="tag-list-container">
+  <div class="tag-list-entry-container">
+    <label *ngIf="name()"> {{name()}}: </label>
+    <input type="text" [(ngModel)]="text" (keyup.enter)="enterHit()"/>
+  </div>
+  <ul class="tag-list">
+    <li class="tag" *ngFor="let eachTag of items();let i = index">
+      <div class="tag-name">{{eachTag}}</div>
+      <button class="removeTag" (click)="removeTag(i)">X</button>
+    </li>
+  </ul>
+</div>

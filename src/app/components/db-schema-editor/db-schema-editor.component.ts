@@ -129,20 +129,9 @@ export class DbSchemaEditorComponent {
     this.Cindex = index;
     this.isHovered = true;
   }
+
   removeClass(index:any){
     this.Cindex = index;
     this.isHovered = false;
-  }
-
-  addRow() {
-    this.rows.push({ label: '', value: '' });
-  }
-
-  deleteRow(index: number) {
-    this.rows.splice(index, 1);
-  }
-
-  dropOptions(event: CdkDragDrop<{ label: string, value: string }[]>) {
-    moveItemInArray(this.rows, event.previousIndex, event.currentIndex);
   }
 }

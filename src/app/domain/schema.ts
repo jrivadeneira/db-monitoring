@@ -41,7 +41,6 @@ export class SchemaField{
     }
 
     public get subFields():string[] {
-      console.log(this._subFields);
       if (typeof this._subFields === 'string') {
         return this.extractSubfields();
       } else {

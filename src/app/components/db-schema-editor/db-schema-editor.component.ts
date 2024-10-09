@@ -43,7 +43,7 @@ export class DbSchemaEditorComponent {
   rows: { label: string, value: string }[] = [{ label: '', value: '' }];
   constructor(private schemaService: SchemaService){
     schemaService.currentSchemaObservable.subscribe((each:Schema) => {
-      console.log('loading schema', each);
+      console.log('loading schema');
       this.id = each.id;
       this.schemaName.update(() => {
         return each.name;

@@ -8,10 +8,10 @@ export class DbSelect{
   ){}
 
   public static fromString(str: string){
-      const valueBreakout = (str as string).split("\x01");
-      const first = valueBreakout[0];
-      const remainder = valueBreakout.slice(1);
-      return new DbSelect(first, remainder);
+    const valueBreakout = (str as string).split("\x01");
+    const first = valueBreakout[0];
+    const remainder = valueBreakout.slice(1);
+    return new DbSelect(first, remainder);
   }
 
   public toString():string{
@@ -28,29 +28,31 @@ export class ReportField{
     public name: string,
     public type: string,
     public value: string | DbSelect = "",
-    public reportId: number = 0,
-    public id: number = 0,
+      public reportId: number = 0,
+      public id: number = 0,
   ){}
 
-  public static fromData(data: any):ReportField{
-    let val = data.value;
-    if(data.type === "select" || data.type === "radio") {
-      val = DbSelect.fromString(val);
+    public static fromData(data: any):ReportField{
+      let val = data.value;
+      if(data.type === "select" || data.type === "radio") {
+        if(!(val instanceof DbSelect)){
+          val = DbSelect.fromString(val);
+        }
+      }
+      return new ReportField(data.name, data.type, val, data.reportId, data.id);
     }
-    return new ReportField(data.name, data.type, val, data.reportId, data.id);
-  }
 
-  public toDTO(): ReportField {
-    this.value = this.value.toString();
-    return this;
-  }
+    public toDTO(): ReportField {
+      this.value = this.value.toString();
+      return this;
+    }
 }
 
 export class Report{
 
   constructor(
     public id: number = 0,
-    public name: string,
+      public name: string,
     public studyId: string,
     public siteId: string,
     public schemaId: string,

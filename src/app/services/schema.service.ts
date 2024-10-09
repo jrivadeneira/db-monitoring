@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Schema } from '../domain/schema';
+import { Schema, SchemaDTO } from '../domain/schema';
 import { ajax } from 'rxjs/ajax';
 @Injectable({
   providedIn: 'root'
@@ -18,15 +18,18 @@ export class SchemaService {
   }
 
   getLatest(){
-    ajax.getJSON<Schema[]>("http://localhost:5000/schema").pipe(take(1)).subscribe((schemas: Schema[]) => {
-      this.schemaSubject.next(schemas);
+    ajax.getJSON<SchemaDTO[]>("http://localhost:5000/schema").pipe(take(1)).subscribe((schemas: SchemaDTO[]) => {
+      this.schemaSubject.next(schemas.map((each: SchemaDTO) => {
+        return Schema.fromData(each);
+      }));
       // schema might need some modification here to extract the special select object.
-    });;
+    });
   }
 
   save(schema: Schema) {
     // might need to modify schema now.
-    return ajax.post<Schema>("http://localhost:5000/schema", schema).pipe(take(1)).subscribe(() => {
+    const dto = schema.asDTO();
+    return ajax.post<Schema>("http://localhost:5000/schema", dto).pipe(take(1)).subscribe(() => {
       this.getLatest();
     });
   }

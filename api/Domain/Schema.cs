@@ -20,6 +20,7 @@ public class SchemaField{
   public int schemaId { get; set; }
   public String name{ get; set; }
   public String type{ get; set; }
+  public String subfields{ get; set; }
   public SchemaField(){}
 
   public SchemaField(int id, String name, String type){
@@ -28,11 +29,12 @@ public class SchemaField{
     this.type = type;
   }
 
-  public SchemaField(int id, int schemaId, String name, String type){
+  public SchemaField(int id, int schemaId, String name, String type, String subfields){
     this.id = id;
     this. schemaId = id;
     this.name = name;
     this.type = type;
+    this.subfields = subfields;
   }
 }
 

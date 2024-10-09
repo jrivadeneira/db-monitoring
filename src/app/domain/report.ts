@@ -6,6 +6,21 @@ export class DbSelect{
     public selected: string,
     public options: string[],
   ){}
+
+  public static fromString(str: string){
+      const valueBreakout = (str as string).split("\x01");
+      const first = valueBreakout[0];
+      const remainder = valueBreakout.slice(1);
+      return new DbSelect(first, remainder);
+  }
+
+  public toString():string{
+    let str = this.selected;
+    for(let eachString in this.options){
+      str+= "\x01" + eachString;
+    }
+    return str;
+  }
 }
 
 export class ReportField{
@@ -18,7 +33,16 @@ export class ReportField{
   ){}
 
   public static fromData(data: any):ReportField{
-    return new ReportField(data.name,data.type,data.value,data.reportId, data.id);
+    let val = data.value;
+    if(data.type === "select" || data.type === "radio") {
+      val = DbSelect.fromString(val);
+    }
+    return new ReportField(data.name, data.type, val, data.reportId, data.id);
+  }
+
+  public toDTO(): ReportField {
+    this.value = this.value.toString();
+    return this;
   }
 }
 
@@ -36,6 +60,9 @@ export class Report{
 
   static preview(fields: SchemaField[]): Report {
     return new Report(0, "", "", "", "", fields.map((each) => {
+      if(!each.subFields){
+        //each.subFields = [];
+      }
       const select: DbSelect = new DbSelect(each.subFields[1],each.subFields);
       if(each.subFields.length > 0){
         return new ReportField(each.name, each.type, select)
@@ -50,12 +77,22 @@ export class Report{
 
   static createFromSchema(schema: Schema):Report{
     return new Report(0, schema.name, "", "", "" + schema.id, schema.fields.map((each) => {
+      if(!each.subFields){
+        //each.subFields = [];
+      }
       const select: DbSelect = new DbSelect(each.subFields[1],each.subFields);
       if (each.subFields.length > 0) {
         return new ReportField(each.name, each.type, select)
       }
       return new ReportField(each.name, each.type);
     }));
+  }
+
+  public toDTO(): Report{
+    this.fields.forEach((each)=>{
+      each.toDTO();
+    });
+    return this;
   }
 
   public static fromData(reportData: any) :Report {

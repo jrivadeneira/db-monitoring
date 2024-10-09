@@ -27,6 +27,7 @@ export class ReportFieldEditorModalComponent {
     this.Cindex = index;
     this.isHovered = true;
   }
+
   removeClass(index:any){
     this.Cindex = index;
     this.isHovered = false;

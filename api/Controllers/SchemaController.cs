@@ -36,7 +36,7 @@ public class SchemaController : ControllerBase {
   private void createSchemaFields(IEnumerable<SchemaField> fields, int schemaId){
     String sql = "INSERT INTO schema_fields OUTPUT INSERTED.* VALUES ";
     foreach (SchemaField eachField in fields) {
-      String newsql = sql + "(" + schemaId + ", '" + eachField.name + "', '" + eachField.type + "');";
+      String newsql = sql + "(" + schemaId + ", '" + eachField.name + "', '" + eachField.type + "', '"+ eachField.subfields + "');";
       eachField.schemaId = schemaId;
       SchemaField inserted = dapper.getDataSingle<SchemaField>(newsql);
       eachField.id = inserted.id;

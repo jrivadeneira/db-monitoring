@@ -20,13 +20,14 @@ export class ReportService {
   getReports(): void {
     ajax.getJSON<Report[]>("http://localhost:5000/report").pipe(take(1)).subscribe((reports: Report[]) => {
       const newReports = reports.map((each:Report) => {
-        return Report.clone(each);
+        return Report.fromData(each);
       });
       this.reportsSubject.next(newReports);
     });
   }
 
   saveReport(report: Report){
+    report.toDTO();
     return ajax.post<Report>("http://localhost:5000/report",report)
     .subscribe((each: any) => {
       const responseReport = each.response;
